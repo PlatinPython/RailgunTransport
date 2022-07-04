@@ -13,5 +13,6 @@ public class ModLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(BlockRegistry.RAILGUN.get(), "Railgun");
+        add(BlockRegistry.CAPSULE.get(), "Capsule");
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
+import platinpython.railguntransport.block.CapsuleBlock;
 import platinpython.railguntransport.block.RailgunBlock;
 import platinpython.railguntransport.util.RegistryHandler;
 
@@ -13,6 +14,8 @@ import java.util.function.Supplier;
 
 public class BlockRegistry {
     public static final RegistryObject<Block> RAILGUN = register("railgun", RailgunBlock::new);
+
+    public static final RegistryObject<Block> CAPSULE = register("capsule", CapsuleBlock::new);
 
     public static void register() {
     }

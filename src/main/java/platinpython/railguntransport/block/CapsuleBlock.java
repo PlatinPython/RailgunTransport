@@ -9,12 +9,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
 
-public class RailgunBlock extends BaseEntityBlock {
-    public RailgunBlock() {
-        super(Properties.of(Material.HEAVY_METAL)
+public class CapsuleBlock extends BaseEntityBlock {
+    public CapsuleBlock() {
+        super(Properties.of(Material.METAL)
                         .isValidSpawn((state, blockGetter, pos, entityType) -> false)
-                        .sound(SoundType.NETHERITE_BLOCK)
-                        .strength(50F, 1200F));
+                        .sound(SoundType.METAL)
+                        .strength(5F, 6F).noOcclusion());
     }
 
     @Nullable

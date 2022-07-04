@@ -2,12 +2,17 @@ package platinpython.railguntransport.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.util.registries.BlockRegistry;
+
+import java.util.function.Function;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -16,21 +21,30 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        getVariantBuilder(BlockRegistry.RAILGUN.get()).forAllStates(state -> ConfiguredModel.builder()
-                                                                                            .modelFile(
-                                                                                                    models().withExistingParent(
-                                                                                                            ModelProvider.BLOCK_FOLDER + "/" + BlockRegistry.RAILGUN.getId()
-                                                                                                                                                                    .getPath(),
-                                                                                                            new ResourceLocation(
-                                                                                                                    RailgunTransport.MOD_ID,
-                                                                                                                    "pedestal"
-                                                                                                            )
-                                                                                                    ))
-                                                                                            .build());
+        registerStatesBlockAndItemModels(BlockRegistry.RAILGUN, state -> ConfiguredModel.builder()
+                                                                                        .modelFile(
+                                                                                                models().withExistingParent(
+                                                                                                        BlockRegistry.RAILGUN.getId()
+                                                                                                                             .toString(),
+                                                                                                        new ResourceLocation(
+                                                                                                                RailgunTransport.MOD_ID,
+                                                                                                                "pedestal"
+                                                                                                        )
+                                                                                                ))
+                                                                                        .build());
+        registerStatesBlockAndItemModels(BlockRegistry.CAPSULE, state -> ConfiguredModel.builder()
+                                                                                        .modelFile(
+                                                                                                models().getExistingFile(
+                                                                                                        BlockRegistry.CAPSULE.getId()))
+                                                                                        .build());
+    }
 
-        itemModels().withExistingParent(BlockRegistry.RAILGUN.getId().getPath(),
-                                        modLoc(ModelProvider.BLOCK_FOLDER + "/" + BlockRegistry.RAILGUN.getId()
-                                                                                                       .getPath())
+    private void registerStatesBlockAndItemModels(RegistryObject<Block> block,
+                                                  Function<BlockState, ConfiguredModel[]> mapper) {
+        getVariantBuilder(block.get()).forAllStates(mapper);
+
+        itemModels().withExistingParent(block.getId().toString(),
+                                        modLoc(ModelProvider.BLOCK_FOLDER + "/" + block.getId().getPath())
         );
     }
 }
