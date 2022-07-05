@@ -1,9 +1,11 @@
 package platinpython.railguntransport.data;
 
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelProvider;
@@ -32,11 +34,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
                                                                                                         )
                                                                                                 ))
                                                                                         .build());
-        registerStatesBlockAndItemModels(BlockRegistry.CAPSULE, state -> ConfiguredModel.builder()
-                                                                                        .modelFile(
-                                                                                                models().getExistingFile(
-                                                                                                        BlockRegistry.CAPSULE.getId()))
-                                                                                        .build());
+        registerStatesBlockAndItemModels(BlockRegistry.CAPSULE, state -> {
+            Direction dir = state.getValue(BlockStateProperties.FACING);
+            return ConfiguredModel.builder()
+                                  .modelFile(models().getExistingFile(BlockRegistry.CAPSULE.getId()))
+                                  .rotationX(dir == Direction.DOWN ? 180 : dir.getAxis().isHorizontal() ? 90 : 0)
+                                  .rotationY(dir.getAxis().isVertical() ? 0 : (int) (dir.toYRot() + 180) % 360)
+                                  .build();
+        });
     }
 
     private void registerStatesBlockAndItemModels(RegistryObject<Block> block,

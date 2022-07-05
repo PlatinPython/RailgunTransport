@@ -1,5 +1,6 @@
 package platinpython.railguntransport.util;
 
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -9,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 import platinpython.railguntransport.util.registries.BlockRegistry;
+import platinpython.railguntransport.util.registries.MenuTypeRegistry;
 
 public class RegistryHandler {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
@@ -22,12 +24,18 @@ public class RegistryHandler {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(
             ForgeRegistries.BLOCK_ENTITIES, RailgunTransport.MOD_ID);
 
+    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.CONTAINERS,
+                                                                                      RailgunTransport.MOD_ID
+    );
+
     public static void register() {
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCK_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        MENUS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         BlockRegistry.register();
         BlockEntityRegistry.register();
+        MenuTypeRegistry.register();
     }
 }

@@ -1,6 +1,5 @@
 package platinpython.railguntransport.client.particle;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
@@ -53,7 +52,9 @@ public class CapsuleParticle extends Particle {
         model.render(poseStack, bufferSource, resLoc -> renderType, getLightColor(partialTicks),
                      OverlayTexture.NO_OVERLAY, partialTicks, EmptyModelData.INSTANCE
         );
-        LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), getBoundingBox(), 1F, 1F, 1F, 1F);
+        LevelRenderer.renderLineBox(poseStack, bufferSource.getBuffer(RenderType.lines()), getBoundingBox(), 1F, 1F, 1F,
+                                    1F
+        );
         bufferSource.endBatch();
     }
 
