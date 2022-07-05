@@ -14,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import platinpython.railguntransport.RailgunTransport;
-import platinpython.railguntransport.client.gui.screen.CapsuleScreen;
+import platinpython.railguntransport.client.gui.screen.inventory.CapsuleScreen;
 import platinpython.railguntransport.client.particle.CapsuleParticle;
 import platinpython.railguntransport.util.registries.MenuTypeRegistry;
 

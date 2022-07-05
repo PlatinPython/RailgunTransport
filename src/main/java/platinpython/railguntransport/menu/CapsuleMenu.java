@@ -79,7 +79,7 @@ public class CapsuleMenu extends AbstractContainerMenu {
     }
 
     private void layoutPlayerInventorySlots() {
-        addSlotBox(this.playerInventory, 9, 85);
-        addSlotRange(this.playerInventory, 0, 143);
+        addSlotBox(this.playerInventory, 9, 84);
+        addSlotRange(this.playerInventory, 0, 142);
     }
 }

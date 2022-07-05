@@ -1,4 +1,4 @@
-package platinpython.railguntransport.client.gui.screen;
+package platinpython.railguntransport.client.gui.screen.inventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -11,7 +11,7 @@ import platinpython.railguntransport.menu.CapsuleMenu;
 
 public class CapsuleScreen extends AbstractContainerScreen<CapsuleMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation(
-            "textures/gui/container/generic_54.png");
+            "textures/gui/container/shulker_box.png");
 
     public CapsuleScreen(CapsuleMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -24,7 +24,6 @@ public class CapsuleScreen extends AbstractContainerScreen<CapsuleMenu> {
         RenderSystem.setShaderTexture(0, CONTAINER_BACKGROUND);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
-        this.blit(poseStack, relX, relY, 0, 0, this.imageWidth, 71);
-        this.blit(poseStack, relX, relY + 71, 0, 126, this.imageWidth, 96);
+        this.blit(poseStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
     }
 }
