@@ -10,6 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 import platinpython.railguntransport.util.registries.BlockRegistry;
+import platinpython.railguntransport.util.registries.ItemRegistry;
 import platinpython.railguntransport.util.registries.MenuTypeRegistry;
 
 public class RegistryHandler {
@@ -35,6 +36,7 @@ public class RegistryHandler {
         MENUS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         BlockRegistry.register();
+        ItemRegistry.register();
         BlockEntityRegistry.register();
         MenuTypeRegistry.register();
     }

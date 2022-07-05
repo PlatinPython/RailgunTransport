@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class BlockRegistry {
     public static final RegistryObject<Block> RAILGUN = register("railgun", RailgunBlock::new);
 
-    public static final RegistryObject<Block> CAPSULE = register("capsule", CapsuleBlock::new);
+    public static final RegistryObject<Block> CAPSULE = registerNoItem("capsule", CapsuleBlock::new);
 
     public static void register() {
     }
