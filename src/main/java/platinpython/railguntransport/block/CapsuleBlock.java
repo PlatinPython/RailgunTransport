@@ -75,7 +75,7 @@ public class CapsuleBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hit) {
         if (!level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof CapsuleBlockEntity blockEntity) {
+            if (level.getBlockEntity(pos) instanceof CapsuleBlockEntity) {
                 MenuProvider menuProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {

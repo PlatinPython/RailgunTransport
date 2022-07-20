@@ -61,6 +61,7 @@ public class CapsuleBlockEntity extends BlockEntity {
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            //noinspection ConstantConditions
             Direction facing = this.level.getBlockState(this.worldPosition).getValue(CapsuleBlock.FACING);
             if (side == null || side == facing || side == facing.getOpposite()) {
                 return handler.cast();

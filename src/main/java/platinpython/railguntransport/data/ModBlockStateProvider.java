@@ -34,6 +34,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
                                                                                                         )
                                                                                                 ))
                                                                                         .build());
+
+        registerStatesBlockAndItemModels(BlockRegistry.TARGET, state -> ConfiguredModel.builder()
+                                                                                       .modelFile(
+                                                                                               models().withExistingParent(
+                                                                                                       BlockRegistry.TARGET.getId()
+                                                                                                                            .toString(),
+                                                                                                       new ResourceLocation(
+                                                                                                               RailgunTransport.MOD_ID,
+                                                                                                               "pedestal"
+                                                                                                       )
+                                                                                               ))
+                                                                                       .build());
+
         registerStatesBlockAndItemModels(BlockRegistry.CAPSULE, state -> {
             Direction dir = state.getValue(BlockStateProperties.FACING);
             return ConfiguredModel.builder()

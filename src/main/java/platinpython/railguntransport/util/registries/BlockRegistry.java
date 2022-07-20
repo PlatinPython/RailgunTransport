@@ -8,12 +8,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import platinpython.railguntransport.block.CapsuleBlock;
 import platinpython.railguntransport.block.RailgunBlock;
+import platinpython.railguntransport.block.TargetBlock;
 import platinpython.railguntransport.util.RegistryHandler;
 
 import java.util.function.Supplier;
 
 public class BlockRegistry {
     public static final RegistryObject<Block> RAILGUN = register("railgun", RailgunBlock::new);
+
+    public static final RegistryObject<Block> TARGET = register("target", TargetBlock::new);
 
     public static final RegistryObject<Block> CAPSULE = registerNoItem("capsule", CapsuleBlock::new);
 
