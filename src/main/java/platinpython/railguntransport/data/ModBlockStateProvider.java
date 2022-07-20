@@ -25,21 +25,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         registerStatesBlockAndItemModels(BlockRegistry.RAILGUN, state -> ConfiguredModel.builder()
                                                                                         .modelFile(
-                                                                                                models().withExistingParent(
-                                                                                                        BlockRegistry.RAILGUN.getId()
-                                                                                                                             .toString(),
-                                                                                                        new ResourceLocation(
-                                                                                                                RailgunTransport.MOD_ID,
-                                                                                                                "pedestal"
-                                                                                                        )
-                                                                                                ))
+                                                                                                models().getExistingFile(
+                                                                                                        BlockRegistry.RAILGUN.getId()))
                                                                                         .build());
 
         registerStatesBlockAndItemModels(BlockRegistry.TARGET, state -> ConfiguredModel.builder()
                                                                                        .modelFile(
                                                                                                models().withExistingParent(
                                                                                                        BlockRegistry.TARGET.getId()
-                                                                                                                            .toString(),
+                                                                                                                           .toString(),
                                                                                                        new ResourceLocation(
                                                                                                                RailgunTransport.MOD_ID,
                                                                                                                "pedestal"

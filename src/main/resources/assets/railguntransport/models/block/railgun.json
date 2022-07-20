@@ -1,0 +1,70 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "all": "minecraft:block/netherite_block",
+    "particle": "#all"
+  },
+  "elements": [
+    {
+      "from": [-12, 0, -12],
+      "to": [28, 1, 28],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 16, 1], "texture": "#all"},
+        "east": {"uv": [0, 0, 16, 1], "texture": "#all"},
+        "south": {"uv": [0, 0, 16, 1], "texture": "#all"},
+        "west": {"uv": [0, 0, 16, 1], "texture": "#all"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#all"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#all"}
+      }
+    },
+    {
+      "from": [4, 1, 4],
+      "to": [12, 16, 12],
+      "color": 4,
+      "faces": {
+        "north": {"uv": [0, 0, 8, 15], "texture": "#all"},
+        "east": {"uv": [0, 0, 8, 15], "texture": "#all"},
+        "south": {"uv": [0, 0, 8, 15], "texture": "#all"},
+        "west": {"uv": [0, 0, 8, 15], "texture": "#all"}
+      }
+    },
+    {
+      "from": [-16, 16, -3],
+      "to": [16, 32, 19],
+      "color": 3,
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#all"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#all"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#all"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#all"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#all"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#all"}
+      }
+    },
+    {
+      "from": [16, 17, -2],
+      "to": [24, 31, 18],
+      "color": 5,
+      "faces": {
+        "north": {"uv": [0, 0, 8, 14], "texture": "#all"},
+        "east": {"uv": [0, 0, 16, 14], "texture": "#all"},
+        "south": {"uv": [0, 0, 8, 14], "texture": "#all"},
+        "up": {"uv": [0, 0, 8, 16], "texture": "#all"},
+        "down": {"uv": [0, 0, 8, 16], "texture": "#all"}
+      }
+    },
+    {
+      "from": [24, 18, -1],
+      "to": [32, 30, 17],
+      "color": 7,
+      "faces": {
+        "north": {"uv": [0, 0, 8, 12], "texture": "#all"},
+        "east": {"uv": [0, 0, 16, 12], "texture": "#all"},
+        "south": {"uv": [0, 0, 8, 12], "texture": "#all"},
+        "up": {"uv": [0, 0, 8, 16], "texture": "#all"},
+        "down": {"uv": [0, 0, 8, 16], "texture": "#all"}
+      }
+    }
+  ]
+}
