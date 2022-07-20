@@ -1,22 +1,22 @@
-modLoader="javafml"
-loaderVersion="[40,)"
-license="MIT"
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT"
 [[mods]]
-modId="railguntransport"
-version="${file.jarVersion}"
-displayName="Railgun Transport"
-credits="Thanks TobiBenzi for the (eventual) models"
-authors="PlatinPython"
-description="Yeet your items across the map with a railgun"
+modId = "railguntransport"
+version = "${file.jarVersion}"
+displayName = "Railgun Transport"
+credits = "Thanks TobiBenzi for the (eventual) models"
+authors = "PlatinPython"
+description = "Yeet your items across the map with a railgun"
 [[dependencies.examplemod]]
-    modId="forge"
-    mandatory=true
-    versionRange="[40,)"
-    ordering="NONE"
-    side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[40.1.63,)"
+ordering = "NONE"
+side = "BOTH"
 [[dependencies.examplemod]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.18.2,1.19)"
-    ordering="NONE"
-    side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,1.19)"
+ordering = "NONE"
+side = "BOTH"
