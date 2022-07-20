@@ -28,10 +28,12 @@ public class TargetSavedData extends SavedData {
 
     public void add(BlockPos pos) {
         this.targets.add(pos);
+        this.setDirty();
     }
 
     public void remove(BlockPos pos) {
         this.targets.remove(pos);
+        this.setDirty();
     }
 
     public List<BlockPos> getReachablePositions(BlockPos centerPos) {

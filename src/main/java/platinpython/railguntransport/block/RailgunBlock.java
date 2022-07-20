@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
+import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 
 public class RailgunBlock extends BaseEntityBlock {
     public RailgunBlock() {
@@ -20,7 +21,7 @@ public class RailgunBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return BlockEntityRegistry.RAILGUN.get().create(pos, state);
     }
 
     @Override
