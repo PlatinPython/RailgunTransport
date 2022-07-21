@@ -2,6 +2,7 @@ package platinpython.railguntransport.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -14,9 +15,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import platinpython.railguntransport.RailgunTransport;
+import platinpython.railguntransport.client.gui.screen.RailgunScreen;
 import platinpython.railguntransport.client.gui.screen.inventory.CapsuleScreen;
 import platinpython.railguntransport.client.particle.CapsuleParticle;
 import platinpython.railguntransport.util.registries.MenuTypeRegistry;
+
+import java.util.List;
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = RailgunTransport.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientUtils {
@@ -28,6 +33,15 @@ public class ClientUtils {
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {
         ForgeModelBakery.addSpecialModel(new ResourceLocation(RailgunTransport.MOD_ID, "block/capsule"));
+    }
+
+    public static void openRailgunScreen(BlockPos blockEntityPos, List<BlockPos> possibleTargets,
+                                         Optional<BlockPos> selectedTarget) {
+        RailgunTransport.LOGGER.info(
+                "Open Screen at position {} with selected target {} and these possible targets: {}", blockEntityPos,
+                selectedTarget, possibleTargets
+        );
+        Minecraft.getInstance().setScreen(new RailgunScreen(blockEntityPos, possibleTargets, selectedTarget));
     }
 
     @Mod.EventBusSubscriber(modid = RailgunTransport.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE,
