@@ -39,11 +39,13 @@ public class CapsuleBlock extends BaseEntityBlock {
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.UP));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public BlockState rotate(BlockState state, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
@@ -71,25 +73,31 @@ public class CapsuleBlock extends BaseEntityBlock {
         return RenderShape.MODEL;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hit) {
-        if (!level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof CapsuleBlockEntity) {
-                MenuProvider menuProvider = new MenuProvider() {
-                    @Override
-                    public Component getDisplayName() {
-                        return new TranslatableComponent("block.railguntransport.capsule");
-                    }
-
-                    @Override
-                    public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-                        return new CapsuleMenu(containerId, pos, playerInventory, player);
-                    }
-                };
-                NetworkHooks.openGui((ServerPlayer) player, menuProvider, pos);
-            }
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.SUCCESS;
+        if (player.isSpectator()) {
+            return InteractionResult.CONSUME;
+        }
+        if (level.getBlockEntity(pos) instanceof CapsuleBlockEntity) {
+            MenuProvider menuProvider = new MenuProvider() {
+                @Override
+                public Component getDisplayName() {
+                    return new TranslatableComponent("block.railguntransport.capsule");
+                }
+
+                @Override
+                public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+                    return new CapsuleMenu(containerId, pos, playerInventory, player);
+                }
+            };
+            NetworkHooks.openGui((ServerPlayer) player, menuProvider, pos);
+            return InteractionResult.CONSUME;
+        }
+        return InteractionResult.PASS;
     }
 }

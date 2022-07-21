@@ -60,6 +60,7 @@ public class CapsuleMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        //noinspection ConstantConditions
         return stillValid(ContainerLevelAccess.create(this.blockEntity.getLevel(), this.blockEntity.getBlockPos()),
                           this.player, BlockRegistry.CAPSULE.get()
         );

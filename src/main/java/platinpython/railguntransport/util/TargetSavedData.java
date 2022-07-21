@@ -15,7 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TargetSavedData extends SavedData {
-    private static final String FILE_NAME = new ResourceLocation(RailgunTransport.MOD_ID, "targets").toString().replace(':', '_');
+    private static final String FILE_NAME = new ResourceLocation(RailgunTransport.MOD_ID, "targets").toString()
+                                                                                                    .replace(':', '_');
     private final HashSet<BlockPos> targets = new HashSet<>();
 
     public TargetSavedData() {
@@ -38,7 +39,7 @@ public class TargetSavedData extends SavedData {
 
     public List<BlockPos> getReachablePositions(BlockPos centerPos) {
         Vec3 center = Vec3.atCenterOf(centerPos);
-        return this.targets.stream().filter(pos -> pos.closerToCenterThan(center, 10_000F)).toList();
+        return this.targets.stream().filter(pos -> pos.closerToCenterThan(center, 10_000D)).toList();
     }
 
     @Override

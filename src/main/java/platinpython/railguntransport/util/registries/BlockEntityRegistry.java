@@ -7,6 +7,7 @@ import platinpython.railguntransport.block.entity.RailgunBlockEntity;
 import platinpython.railguntransport.block.entity.TargetBlockEntity;
 import platinpython.railguntransport.util.RegistryHandler;
 
+@SuppressWarnings("ConstantConditions")
 public class BlockEntityRegistry {
     public static final RegistryObject<BlockEntityType<RailgunBlockEntity>> RAILGUN = RegistryHandler.BLOCK_ENTITY_TYPES.register(
             "railgun",
