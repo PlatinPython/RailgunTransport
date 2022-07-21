@@ -5,17 +5,17 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import platinpython.railguntransport.util.ClientUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 public class RailgunScreenOpenPKT {
     private final BlockPos blockEntityPos;
-    private final List<BlockPos> possibleTargets;
+    private final Map<BlockPos, Optional<String>> possibleTargets;
     private final Optional<BlockPos> selectedTarget;
 
-    public RailgunScreenOpenPKT(BlockPos blockEntityPos, List<BlockPos> possibleTargets, Optional<BlockPos> selectedTarget) {
+    public RailgunScreenOpenPKT(BlockPos blockEntityPos, Map<BlockPos, Optional<String>> possibleTargets, Optional<BlockPos> selectedTarget) {
         this.blockEntityPos = blockEntityPos;
         this.possibleTargets = possibleTargets;
         this.selectedTarget = selectedTarget;
@@ -24,16 +24,19 @@ public class RailgunScreenOpenPKT {
     public static void encode(RailgunScreenOpenPKT message, FriendlyByteBuf buffer) {
         buffer.writeBlockPos(message.blockEntityPos);
         buffer.writeInt(message.possibleTargets.size());
-        message.possibleTargets.forEach(buffer::writeBlockPos);
+        message.possibleTargets.forEach((pos, name) -> {
+            buffer.writeBlockPos(pos);
+            buffer.writeOptional(name, FriendlyByteBuf::writeUtf);
+        });
         buffer.writeOptional(message.selectedTarget, FriendlyByteBuf::writeBlockPos);
     }
 
     public static RailgunScreenOpenPKT decode(FriendlyByteBuf buffer) {
         BlockPos blockEntityPos = buffer.readBlockPos();
         int size = buffer.readInt();
-        ArrayList<BlockPos> possibleTargets = new ArrayList<>(size);
+        Map<BlockPos, Optional<String>> possibleTargets = new HashMap<>(size);
         for (int i = 0; i < size; i++) {
-            possibleTargets.add(i, buffer.readBlockPos());
+            possibleTargets.put(buffer.readBlockPos(), buffer.readOptional(FriendlyByteBuf::readUtf));
         }
         Optional<BlockPos> selectedTarget = buffer.readOptional(FriendlyByteBuf::readBlockPos);
         return new RailgunScreenOpenPKT(blockEntityPos, possibleTargets, selectedTarget);

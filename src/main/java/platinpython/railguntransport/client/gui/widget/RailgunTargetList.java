@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RailgunTargetList extends ContainerObjectSelectionList<RailgunTargetList.RailgunTargetListEntry> {
 
@@ -19,11 +20,9 @@ public class RailgunTargetList extends ContainerObjectSelectionList<RailgunTarge
         this.setRenderBackground(false);
     }
 
-    public void addTarget(BlockPos pos, TargetButton.OnPress onPress) {
-        this.addEntry(new RailgunTargetListEntry(
-                new TargetButton(this.width / 2 - 155, 0, 310, 20, new TextComponent(pos.toShortString()), onPress,
-                                 pos
-                )));
+    public void addTarget(BlockPos pos, Optional<String> name, TargetButton.OnPress onPress) {
+        this.addEntry(new RailgunTargetListEntry(new TargetButton(this.width / 2 - 155, 0, 310, 20, new TextComponent(
+                name.orElse("") + (name.isPresent() ? " " : "") + "(" + pos.toShortString() + ")"), onPress, pos)));
     }
 
     @Override

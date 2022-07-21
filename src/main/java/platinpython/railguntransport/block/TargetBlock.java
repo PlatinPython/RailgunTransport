@@ -38,7 +38,7 @@ public class TargetBlock extends BaseEntityBlock {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
                             ItemStack stack) {
         if (level instanceof ServerLevel serverLevel) {
-            TargetSavedData.get(serverLevel.getDataStorage()).add(pos);
+            TargetSavedData.get(serverLevel.getDataStorage()).add(pos, serverLevel);
         }
     }
 

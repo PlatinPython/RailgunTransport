@@ -20,7 +20,7 @@ import platinpython.railguntransport.client.gui.screen.inventory.CapsuleScreen;
 import platinpython.railguntransport.client.particle.CapsuleParticle;
 import platinpython.railguntransport.util.registries.MenuTypeRegistry;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = RailgunTransport.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -35,12 +35,8 @@ public class ClientUtils {
         ForgeModelBakery.addSpecialModel(new ResourceLocation(RailgunTransport.MOD_ID, "block/capsule"));
     }
 
-    public static void openRailgunScreen(BlockPos blockEntityPos, List<BlockPos> possibleTargets,
+    public static void openRailgunScreen(BlockPos blockEntityPos, Map<BlockPos, Optional<String>> possibleTargets,
                                          Optional<BlockPos> selectedTarget) {
-        RailgunTransport.LOGGER.info(
-                "Open Screen at position {} with selected target {} and these possible targets: {}", blockEntityPos,
-                selectedTarget, possibleTargets
-        );
         Minecraft.getInstance().setScreen(new RailgunScreen(blockEntityPos, possibleTargets, selectedTarget));
     }
 
