@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.client.gui.screen.RailgunScreen;
+import platinpython.railguntransport.client.gui.screen.TargetScreen;
 import platinpython.railguntransport.client.gui.screen.inventory.CapsuleScreen;
 import platinpython.railguntransport.client.particle.CapsuleParticle;
 import platinpython.railguntransport.util.registries.MenuTypeRegistry;
@@ -38,6 +39,10 @@ public class ClientUtils {
     public static void openRailgunScreen(BlockPos blockEntityPos, Map<BlockPos, Optional<String>> possibleTargets,
                                          Optional<BlockPos> selectedTarget) {
         Minecraft.getInstance().setScreen(new RailgunScreen(blockEntityPos, possibleTargets, selectedTarget));
+    }
+
+    public static void openTargetScreen(BlockPos blockEntityPos, Optional<String> name) {
+        Minecraft.getInstance().setScreen(new TargetScreen(blockEntityPos, name));
     }
 
     @Mod.EventBusSubscriber(modid = RailgunTransport.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE,

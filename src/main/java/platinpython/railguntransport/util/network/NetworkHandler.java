@@ -7,6 +7,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.util.network.packets.RailgunScreenOpenPKT;
 import platinpython.railguntransport.util.network.packets.RailgunUpdateSelectedTargetPKT;
+import platinpython.railguntransport.util.network.packets.TargetScreenOpenPKT;
+import platinpython.railguntransport.util.network.packets.TargetUpdateNamePKT;
 
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
@@ -27,6 +29,16 @@ public class NetworkHandler {
                 .encoder(RailgunUpdateSelectedTargetPKT::encode)
                 .decoder(RailgunUpdateSelectedTargetPKT::decode)
                 .consumer(RailgunUpdateSelectedTargetPKT.Handler::handle)
+                .add();
+        INSTANCE.messageBuilder(TargetScreenOpenPKT.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(TargetScreenOpenPKT::encode)
+                .decoder(TargetScreenOpenPKT::decode)
+                .consumer(TargetScreenOpenPKT.Handler::handle)
+                .add();
+        INSTANCE.messageBuilder(TargetUpdateNamePKT.class, index++, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(TargetUpdateNamePKT::encode)
+                .decoder(TargetUpdateNamePKT::decode)
+                .consumer(TargetUpdateNamePKT.Handler::handle)
                 .add();
     }
 }
