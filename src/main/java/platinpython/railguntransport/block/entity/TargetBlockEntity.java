@@ -5,8 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import platinpython.railguntransport.util.TargetSavedData;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
+import platinpython.railguntransport.util.saveddata.TargetSavedData;
 
 import java.util.Optional;
 

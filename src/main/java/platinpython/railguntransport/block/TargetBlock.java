@@ -19,10 +19,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 import platinpython.railguntransport.block.entity.TargetBlockEntity;
-import platinpython.railguntransport.util.TargetSavedData;
 import platinpython.railguntransport.util.network.NetworkHandler;
 import platinpython.railguntransport.util.network.packets.TargetScreenOpenPKT;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
+import platinpython.railguntransport.util.saveddata.TargetSavedData;
 
 public class TargetBlock extends BaseEntityBlock {
     public TargetBlock() {
