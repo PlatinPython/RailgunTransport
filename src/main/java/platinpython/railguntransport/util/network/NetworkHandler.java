@@ -5,6 +5,8 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import platinpython.railguntransport.RailgunTransport;
+import platinpython.railguntransport.util.network.packets.MovingCapsulesSyncPKT;
+import platinpython.railguntransport.util.network.packets.NewMovingCapsulePKT;
 import platinpython.railguntransport.util.network.packets.RailgunScreenOpenPKT;
 import platinpython.railguntransport.util.network.packets.RailgunUpdateSelectedTargetPKT;
 import platinpython.railguntransport.util.network.packets.TargetScreenOpenPKT;
@@ -39,6 +41,16 @@ public class NetworkHandler {
                 .encoder(TargetUpdateNamePKT::encode)
                 .decoder(TargetUpdateNamePKT::decode)
                 .consumer(TargetUpdateNamePKT.Handler::handle)
+                .add();
+        INSTANCE.messageBuilder(NewMovingCapsulePKT.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(NewMovingCapsulePKT::encode)
+                .decoder(NewMovingCapsulePKT::decode)
+                .consumer(NewMovingCapsulePKT.Handler::handle)
+                .add();
+        INSTANCE.messageBuilder(MovingCapsulesSyncPKT.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(MovingCapsulesSyncPKT::encode)
+                .decoder(MovingCapsulesSyncPKT::decode)
+                .consumer(MovingCapsulesSyncPKT.Handler::handle)
                 .add();
     }
 }
