@@ -40,7 +40,7 @@ public class RailgunScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
-        super.onClose();
+    public boolean isPauseScreen() {
+        return false;
     }
 }

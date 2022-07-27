@@ -39,4 +39,9 @@ public class TargetScreen extends Screen {
         );
         this.addRenderableWidget(button);
     }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
 }
