@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 public class TargetSavedData extends SavedData {
     private static final String FILE_NAME = new ResourceLocation(RailgunTransport.MOD_ID, "targets").toString()
                                                                                                     .replace(':', '_');
+    private static final double MIN_DISTANCE = 100D;
+    private static final double MAX_DISTANCE = 10_000D;
     private final HashMap<BlockPos, Optional<String>> targets = new HashMap<>();
 
     public TargetSavedData() {
@@ -48,17 +50,15 @@ public class TargetSavedData extends SavedData {
         Vec3 center = Vec3.atCenterOf(centerPos);
         return this.targets.entrySet()
                            .stream()
-                           .filter(entry -> horizontalBetweenDistances(entry.getKey(), center, 100D, 10_000D))
+                           .filter(entry -> horizontalBetweenDistances(entry.getKey(), center))
                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private static boolean horizontalBetweenDistances(BlockPos posToCheck, Vec3 center, double minDistance,
-                                                      double maxDistance) {
+    private static boolean horizontalBetweenDistances(BlockPos posToCheck, Vec3 center) {
         double x = posToCheck.getX() + 0.5D - center.x;
         double z = posToCheck.getZ() + 0.5D - center.z;
         double distanceFromCenter = x * x + z * z;
-        return distanceFromCenter > Mth.square(minDistance) && distanceFromCenter < Mth.square(maxDistance);
+        return distanceFromCenter > Mth.square(MIN_DISTANCE) && distanceFromCenter < Mth.square(MAX_DISTANCE);
     }
 
     @Override
