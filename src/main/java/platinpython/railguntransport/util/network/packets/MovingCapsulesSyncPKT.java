@@ -50,11 +50,13 @@ public class MovingCapsulesSyncPKT {
 
     public static class Handler {
         public static void handle(MovingCapsulesSyncPKT message, Supplier<NetworkEvent.Context> context) {
-            context.get()
-                   .enqueueWork(() -> message.movingCapsules.forEach(
-                           c -> MovingCapsuleRendering.addMovingCapsule(c.start, c.target, c.totalTicks,
-                                                                        c.remainingTicks
-                           )));
+            context.get().enqueueWork(() -> {
+                MovingCapsuleRendering.clearMovingCapsules();
+                message.movingCapsules.forEach(
+                        c -> MovingCapsuleRendering.addMovingCapsule(c.start, c.target, c.totalTicks,
+                                                                     c.remainingTicks
+                        ));
+            });
             context.get().setPacketHandled(true);
         }
     }

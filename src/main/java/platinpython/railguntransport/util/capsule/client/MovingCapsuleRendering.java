@@ -36,12 +36,16 @@ public class MovingCapsuleRendering {
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
+        if (event.phase == TickEvent.Phase.END && !Minecraft.getInstance().isPaused()) {
             movingCapsules.removeIf(MovingCapsuleClient::tick);
         }
     }
 
     public static void addMovingCapsule(BlockPos start, BlockPos target, int totalTicks, int remainingTicks) {
         movingCapsules.add(new MovingCapsuleClient(start, target, totalTicks, remainingTicks));
+    }
+
+    public static void clearMovingCapsules() {
+        movingCapsules.clear();
     }
 }

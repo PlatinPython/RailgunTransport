@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import platinpython.railguntransport.block.CapsuleBlock;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 import platinpython.railguntransport.util.registries.BlockRegistry;
@@ -43,19 +44,23 @@ public class MovingCapsuleServer {
             return false;
         }
 
-        level.setBlock(this.target,
-                       BlockRegistry.CAPSULE.get().defaultBlockState().setValue(CapsuleBlock.FACING, Direction.DOWN),
-                       Block.UPDATE_ALL
-        );
-        level.getBlockEntity(this.target, BlockEntityRegistry.CAPSULE.get()).ifPresent(blockEntity -> {
-            CompoundTag tag = blockEntity.saveWithoutMetadata();
-            CompoundTag tagCopy = tag.copy();
-            tag.merge(this.capsuleData);
-            if (!tag.equals(tagCopy)) {
-                blockEntity.load(tag);
-                blockEntity.setChanged();
-            }
-        });
+        if (level.getBlockState(this.target).is(Blocks.AIR)) {
+            level.setBlock(this.target,
+                           BlockRegistry.CAPSULE.get()
+                                                .defaultBlockState()
+                                                .setValue(CapsuleBlock.FACING, Direction.DOWN),
+                           Block.UPDATE_ALL
+            );
+            level.getBlockEntity(this.target, BlockEntityRegistry.CAPSULE.get()).ifPresent(blockEntity -> {
+                CompoundTag tag = blockEntity.saveWithoutMetadata();
+                CompoundTag tagCopy = tag.copy();
+                tag.merge(this.capsuleData);
+                if (!tag.equals(tagCopy)) {
+                    blockEntity.load(tag);
+                    blockEntity.setChanged();
+                }
+            });
+        }
         return true;
     }
 

@@ -65,6 +65,12 @@ public class MovingCapsuleSavedData extends SavedData {
         );
     }
 
+    public void sync(ResourceKey<Level> dimension) {
+        NetworkHandler.INSTANCE.send(PacketDistributor.DIMENSION.with(() -> dimension),
+                                     MovingCapsulesSyncPKT.fromMovingCapsuleServerSet(this.movingCapsules)
+        );
+    }
+
     @Override
     public CompoundTag save(CompoundTag compoundTag) {
         ListTag listTag = new ListTag();

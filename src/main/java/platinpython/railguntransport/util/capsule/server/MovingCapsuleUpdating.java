@@ -21,7 +21,11 @@ public class MovingCapsuleUpdating {
             return;
         }
         if (MovingCapsuleSavedData.isPresent(serverLevel.getDataStorage())) {
-            MovingCapsuleSavedData.get(serverLevel.getDataStorage()).tick(serverLevel);
+            MovingCapsuleSavedData savedData = MovingCapsuleSavedData.get(serverLevel.getDataStorage());
+            savedData.tick(serverLevel);
+            if (serverLevel.getGameTime() % 5 == 0) {
+                savedData.sync(serverLevel.dimension());
+            }
         }
     }
 
