@@ -58,7 +58,7 @@ public class TargetSavedData extends SavedData {
         double x = posToCheck.getX() + 0.5D - center.x;
         double z = posToCheck.getZ() + 0.5D - center.z;
         double distanceFromCenter = x * x + z * z;
-        return distanceFromCenter > Mth.square(MIN_DISTANCE) && distanceFromCenter < Mth.square(MAX_DISTANCE);
+        return distanceFromCenter >= Mth.square(MIN_DISTANCE) && distanceFromCenter <= Mth.square(MAX_DISTANCE);
     }
 
     @Override
