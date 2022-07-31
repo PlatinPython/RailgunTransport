@@ -68,6 +68,11 @@ public class MultiblockHelper {
                 return MultiblockType.NONE;
             }
         }
+        for (BlockPos pos : BlockPos.betweenClosed(frontLeftCorner.above(2), backRightCorner.above(2))) {
+            if (!blockEntity.getLevel().getBlockState(pos).is(Blocks.AIR)) {
+                return MultiblockType.NONE;
+            }
+        }
         MultiblockType type;
         BlockState determiningState = blockEntity.getLevel()
                                                  .getBlockState(blockEntity.getBlockPos().above().relative(direction));
@@ -102,24 +107,7 @@ public class MultiblockHelper {
     }
 
     private static void assembleRailgun(TerminalBlockEntity blockEntity) {
-        Direction direction = blockEntity.getBlockState().getValue(TerminalBlock.HORIZONTAL_FACING).getOpposite();
-        BlockPos frontLeftCorner = blockEntity.getBlockPos()
-                                              .relative(direction)
-                                              .relative(Rotation.COUNTERCLOCKWISE_90.rotate(direction));
-        BlockPos backRightCorner = blockEntity.getBlockPos()
-                                              .relative(direction, 3)
-                                              .relative(Rotation.CLOCKWISE_90.rotate(direction));
-        for (BlockPos pos : BlockPos.betweenClosed(frontLeftCorner, backRightCorner.above())) {
-            //noinspection ConstantConditions
-            BlockState state = blockEntity.getLevel().getBlockState(pos);
-            blockEntity.getLevel().setBlock(pos, BlockRegistry.MULTIBLOCK.get().defaultBlockState(), Block.UPDATE_ALL);
-            blockEntity.getLevel()
-                       .getBlockEntity(pos, BlockEntityRegistry.MULTIBLOCK.get())
-                       .ifPresent(multiblockBlockEntity -> {
-                           multiblockBlockEntity.setTerminalPos(blockEntity.getBlockPos());
-                           multiblockBlockEntity.setSavedBlockState(state);
-                       });
-        }
+        assembleMultiblockPart(blockEntity);
         //noinspection ConstantConditions
         blockEntity.getLevel()
                    .setBlock(blockEntity.getBlockPos(), blockEntity.getBlockState()
@@ -130,7 +118,7 @@ public class MultiblockHelper {
     }
 
     private static void assembleTarget(TerminalBlockEntity blockEntity) {
-        assembleRailgun(blockEntity);
+        assembleMultiblockPart(blockEntity);
         //noinspection ConstantConditions
         blockEntity.getLevel()
                    .setBlock(blockEntity.getBlockPos(),
@@ -138,6 +126,27 @@ public class MultiblockHelper {
                              Block.UPDATE_ALL
                    );
         blockEntity.setTargetData(Optional.of(new TargetData(blockEntity)));
+    }
+
+    private static void assembleMultiblockPart(TerminalBlockEntity blockEntity) {
+        Direction direction = blockEntity.getBlockState().getValue(TerminalBlock.HORIZONTAL_FACING).getOpposite();
+        BlockPos frontLeftCorner = blockEntity.getBlockPos()
+                                              .relative(direction)
+                                              .relative(Rotation.COUNTERCLOCKWISE_90.rotate(direction));
+        BlockPos backRightCorner = blockEntity.getBlockPos()
+                                              .relative(direction, 3)
+                                              .relative(Rotation.CLOCKWISE_90.rotate(direction));
+        for (BlockPos pos : BlockPos.betweenClosed(frontLeftCorner, backRightCorner.above(2))) {
+            //noinspection ConstantConditions
+            BlockState state = blockEntity.getLevel().getBlockState(pos);
+            blockEntity.getLevel().setBlock(pos, BlockRegistry.MULTIBLOCK.get().defaultBlockState(), Block.UPDATE_ALL);
+            blockEntity.getLevel()
+                       .getBlockEntity(pos, BlockEntityRegistry.MULTIBLOCK.get())
+                       .ifPresent(multiblockBlockEntity -> {
+                           multiblockBlockEntity.setTerminalPos(blockEntity.getBlockPos());
+                           multiblockBlockEntity.setSavedBlockState(state);
+                       });
+        }
     }
 
     public static void disassemble(TerminalBlockEntity blockEntity) {
@@ -154,7 +163,7 @@ public class MultiblockHelper {
         BlockPos backRightCorner = blockEntity.getBlockPos()
                                               .relative(direction, 3)
                                               .relative(Rotation.CLOCKWISE_90.rotate(direction));
-        for (BlockPos pos : BlockPos.betweenClosed(frontLeftCorner, backRightCorner.above())) {
+        for (BlockPos pos : BlockPos.betweenClosed(frontLeftCorner, backRightCorner.above(2))) {
             if (!blockEntity.getLevel().getBlockState(pos).is(BlockRegistry.MULTIBLOCK.get())) {
                 continue;
             }
