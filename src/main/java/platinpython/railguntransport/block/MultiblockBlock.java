@@ -1,5 +1,6 @@
 package platinpython.railguntransport.block;
 
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -8,6 +9,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.client.IBlockRenderProperties;
 import org.jetbrains.annotations.Nullable;
 import platinpython.railguntransport.block.entity.MultiblockBlockEntity;
 import platinpython.railguntransport.block.entity.TerminalBlockEntity;
@@ -15,6 +18,7 @@ import platinpython.railguntransport.util.multiblock.MultiblockHelper;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class MultiblockBlock extends BaseEntityBlock {
     public MultiblockBlock() {
@@ -40,6 +44,22 @@ public class MultiblockBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return BlockEntityRegistry.MULTIBLOCK.get().create(pos, state);
+    }
+
+    @Override
+    public void initializeClient(Consumer<IBlockRenderProperties> consumer) {
+        IBlockRenderProperties renderProperties = new IBlockRenderProperties() {
+            @Override
+            public boolean addHitEffects(BlockState state, Level level, HitResult target, ParticleEngine manager) {
+                return true;
+            }
+
+            @Override
+            public boolean addDestroyEffects(BlockState state, Level Level, BlockPos pos, ParticleEngine manager) {
+                return true;
+            }
+        };
+        consumer.accept(renderProperties);
     }
 
     @SuppressWarnings("deprecation")
