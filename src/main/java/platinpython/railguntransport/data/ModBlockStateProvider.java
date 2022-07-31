@@ -2,7 +2,6 @@ package platinpython.railguntransport.data;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -23,24 +22,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        registerStatesBlockAndItemModels(BlockRegistry.RAILGUN, state -> ConfiguredModel.builder()
-                                                                                        .modelFile(
-                                                                                                models().getExistingFile(
-                                                                                                        BlockRegistry.RAILGUN.getId()))
-                                                                                        .build());
-
-        registerStatesBlockAndItemModels(BlockRegistry.TARGET, state -> ConfiguredModel.builder()
-                                                                                       .modelFile(
-                                                                                               models().withExistingParent(
-                                                                                                       BlockRegistry.TARGET.getId()
-                                                                                                                           .toString(),
-                                                                                                       new ResourceLocation(
-                                                                                                               RailgunTransport.MOD_ID,
-                                                                                                               "pedestal"
-                                                                                                       )
-                                                                                               ))
-                                                                                       .build());
-
         registerStatesBlockAndItemModels(BlockRegistry.CAPSULE, state -> {
             Direction dir = state.getValue(BlockStateProperties.FACING);
             return ConfiguredModel.builder()
@@ -51,6 +32,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         });
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void registerStatesBlockAndItemModels(RegistryObject<Block> block,
                                                   Function<BlockState, ConfiguredModel[]> mapper) {
         getVariantBuilder(block.get()).forAllStates(mapper);

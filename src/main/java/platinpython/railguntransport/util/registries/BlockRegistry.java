@@ -7,26 +7,29 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 import platinpython.railguntransport.block.CapsuleBlock;
-import platinpython.railguntransport.block.RailgunBlock;
-import platinpython.railguntransport.block.TargetBlock;
+import platinpython.railguntransport.block.MultiblockBlock;
+import platinpython.railguntransport.block.TerminalBlock;
 import platinpython.railguntransport.util.RegistryHandler;
 
 import java.util.function.Supplier;
 
 public class BlockRegistry {
-    public static final RegistryObject<Block> RAILGUN = register("railgun", RailgunBlock::new);
-
-    public static final RegistryObject<Block> TARGET = register("target", TargetBlock::new);
-
     public static final RegistryObject<Block> CAPSULE = registerNoItem("capsule", CapsuleBlock::new);
+
+    public static final RegistryObject<Block> TERMINAL = register("terminal", TerminalBlock::new);
+
+    public static final RegistryObject<Block> MULTIBLOCK = registerNoItem("multiblock", MultiblockBlock::new);
 
     public static void register() {
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
         RegistryObject<T> ret = registerNoItem(name, block);
-        RegistryHandler.ITEMS.register(name, () -> new BlockItem(ret.get(), new Item.Properties().tab(
-                CreativeModeTab.TAB_REDSTONE).rarity(Rarity.RARE)));
+        RegistryHandler.ITEMS.register(name, () -> new BlockItem(ret.get(),
+                                                                 new Item.Properties().tab(CreativeModeTab.TAB_REDSTONE)
+                                                                                      .rarity(Rarity.RARE)
+        ));
         return ret;
     }
 

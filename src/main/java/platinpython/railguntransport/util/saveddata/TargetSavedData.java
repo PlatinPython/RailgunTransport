@@ -12,7 +12,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraft.world.phys.Vec3;
 import platinpython.railguntransport.RailgunTransport;
-import platinpython.railguntransport.block.entity.TargetBlockEntity;
+import platinpython.railguntransport.block.entity.TerminalBlockEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +35,11 @@ public class TargetSavedData extends SavedData {
     }
 
     public void add(BlockPos pos, ServerLevel level) {
-        if (level.getBlockEntity(pos) instanceof TargetBlockEntity blockEntity) {
-            this.targets.put(pos, blockEntity.getName());
-            this.setDirty();
+        if (level.getBlockEntity(pos) instanceof TerminalBlockEntity blockEntity) {
+            if (blockEntity.getTargetData().isPresent()) {
+                this.targets.put(pos, blockEntity.getTargetData().get().getName());
+                this.setDirty();
+            }
         }
     }
 
