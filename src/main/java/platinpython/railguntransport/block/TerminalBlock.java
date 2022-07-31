@@ -113,7 +113,7 @@ public class TerminalBlock extends BaseEntityBlock {
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
+        if (!state.is(newState.getBlock()) && state.getValue(MULTIBLOCK_TYPE) != MultiblockType.NONE) {
             level.getBlockEntity(pos, BlockEntityRegistry.TERMINAL.get()).ifPresent(MultiblockHelper::disassemble);
         }
         super.onRemove(state, level, pos, newState, isMoving);
