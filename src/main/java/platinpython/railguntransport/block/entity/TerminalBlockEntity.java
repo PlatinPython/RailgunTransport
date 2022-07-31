@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.block.TerminalBlock;
+import platinpython.railguntransport.util.multiblock.MultiblockType;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 import platinpython.railguntransport.util.registries.BlockRegistry;
 import platinpython.railguntransport.util.saveddata.MovingCapsuleSavedData;
@@ -140,17 +141,7 @@ public class TerminalBlockEntity extends BlockEntity {
     }
 
     private ItemStackHandler createHandler() {
-        return new ItemStackHandler(1) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                setChanged();
-            }
-
-            @Override
-            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return stack.getItem() == BlockRegistry.CAPSULE.get().asItem();
-            }
-        };
+        return new TerminalItemStackHandler();
     }
 
     @Override
@@ -158,7 +149,7 @@ public class TerminalBlockEntity extends BlockEntity {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             //noinspection ConstantConditions
             Direction facing = this.level.getBlockState(this.worldPosition).getValue(TerminalBlock.HORIZONTAL_FACING);
-            if (side == null || side == facing.getCounterClockWise() || side == facing || side == facing.getClockWise()) {
+            if (side == null || side == facing.getCounterClockWise() || side == facing.getClockWise()) {
                 return handler.cast();
             }
         }
@@ -167,7 +158,10 @@ public class TerminalBlockEntity extends BlockEntity {
 
     @Override
     public AABB getRenderBoundingBox() {
-        return new AABB(this.getBlockPos().offset(-1, 0, -1), this.getBlockPos().offset(1, 2, 1));
+        Direction direction = this.getBlockState().getValue(TerminalBlock.HORIZONTAL_FACING).getOpposite();
+        return new AABB(this.getBlockPos().relative(direction).relative(direction.getCounterClockWise()),
+                        this.getBlockPos().above().relative(direction, 3).relative(direction.getClockWise())
+        );
     }
 
     public Optional<RailgunData> getRailgunData() {
@@ -211,6 +205,40 @@ public class TerminalBlockEntity extends BlockEntity {
                                   .add(new CompoundTag(), blockEntity.getBlockPos().offset(0, 1, 0),
                                        blockEntity.railgunData.get().getSelectedTarget().get(), level.dimension()
                                   );
+        }
+    }
+
+    private class TerminalItemStackHandler extends ItemStackHandler {
+        @Override
+        protected void onContentsChanged(int slot) {
+            setChanged();
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return stack.getItem() == BlockRegistry.CAPSULE.get().asItem();
+        }
+
+        @NotNull
+        @Override
+        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            if (TerminalBlockEntity.this.getBlockState()
+                                        .getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.RAILGUN) {
+                return stack;
+            } else {
+                return super.insertItem(slot, stack, simulate);
+            }
+        }
+
+        @NotNull
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (TerminalBlockEntity.this.getBlockState()
+                                        .getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.TARGET) {
+                return ItemStack.EMPTY;
+            } else {
+                return super.extractItem(slot, amount, simulate);
+            }
         }
     }
 }
