@@ -14,6 +14,8 @@ public class ItemRegistry {
                                                                                               new Item.Properties().tab(
                                                                                                                            CreativeModeTab.TAB_REDSTONE)
                                                                                                                    .rarity(Rarity.RARE)
+                                                                                                                   .stacksTo(
+                                                                                                                           1)
                                                                                       )
     );
 
