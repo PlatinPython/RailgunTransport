@@ -1,14 +1,18 @@
 package platinpython.railguntransport.util.capsule.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import platinpython.railguntransport.block.CapsuleBlock;
 import platinpython.railguntransport.util.registries.BlockRegistry;
 
 public class MovingCapsuleClient {
@@ -29,8 +33,6 @@ public class MovingCapsuleClient {
     }
 
     public void render(float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource) {
-        boolean temp = Minecraft.getInstance().options.hideGui;
-        Minecraft.getInstance().options.hideGui = false;
         Vec3 start = Vec3.atLowerCornerOf(this.start);
         Vec3 target = Vec3.atLowerCornerOf(this.target);
         Vec3 distance = target.subtract(start);
@@ -48,26 +50,23 @@ public class MovingCapsuleClient {
         poseStack.translate(this.start.getX(), this.start.getY(), this.start.getZ());
         poseStack.translate(blockLocation.x, blockLocation.y, blockLocation.z);
 
-        var l = -10D;
-        poseStack.translate(l, l, l);
-        poseStack.mulPose(Vector3f.YN.rotation((float) Math.atan2(distance.z, distance.x)));
-        //TODO: Figure out rotation stuff
-//        poseStack.mulPose(Vector3f.XP.rotationDegrees(360F * progress * 10));
-//        double yOffsetDerivative = 2 * throwHeight * (1 - 2 * progress) + 2 * yDiff * progress;
-//        double yOffsetDerivativeDerivative = -4 * throwHeight + 2 * yDiff;
-//        poseStack.mulPose(Vector3f.ZN.rotation((float) (Math.atan(yOffsetDerivative) /*+ Math.toRadians(45F)*/)));
-        poseStack.translate(-l, -l, -l);
+        poseStack.translate(0.5, 0.5, 0.5);
+        Quaternion yRot = Vector3f.YN.rotation((float) Math.atan2(distance.z, distance.x));
+
+        poseStack.mulPose(yRot);
+        poseStack.translate(-0.5, -0.5, -0.5);
         //noinspection ConstantConditions
         Minecraft.getInstance()
                  .getBlockRenderer()
-                 .renderSingleBlock(BlockRegistry.CAPSULE.get().defaultBlockState(), poseStack, bufferSource,
-                                    LevelRenderer.getLightColor(Minecraft.getInstance().level,
-                                                                this.start.offset(blockLocation.x, blockLocation.y,
-                                                                                  blockLocation.z
-                                                                )
-                                    ), OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE
+                 .renderSingleBlock(
+                         BlockRegistry.CAPSULE.get().defaultBlockState().setValue(CapsuleBlock.FACING, Direction.EAST),
+                         poseStack, bufferSource,
+                         LevelRenderer.getLightColor(Minecraft.getInstance().level, Blocks.AIR.defaultBlockState(),
+                                                     this.start.offset(blockLocation.x, blockLocation.y,
+                                                                       blockLocation.z
+                                                     )
+                         ), OverlayTexture.NO_OVERLAY, EmptyModelData.INSTANCE
                  );
         poseStack.popPose();
-        Minecraft.getInstance().options.hideGui = temp;
     }
 }
