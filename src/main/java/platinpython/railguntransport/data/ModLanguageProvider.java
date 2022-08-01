@@ -13,5 +13,7 @@ public class ModLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(BlockRegistry.CAPSULE.get(), "Capsule");
+        add(BlockRegistry.TERMINAL.get(), "Terminal");
+        add(BlockRegistry.MULTIBLOCK.get(), "");
     }
 }
