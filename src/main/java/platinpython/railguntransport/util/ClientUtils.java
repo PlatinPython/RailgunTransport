@@ -15,7 +15,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.client.gui.screen.RailgunScreen;
 import platinpython.railguntransport.client.gui.screen.TargetScreen;
-import platinpython.railguntransport.client.gui.screen.TerminalScreen;
 import platinpython.railguntransport.client.gui.screen.inventory.CapsuleScreen;
 import platinpython.railguntransport.client.renderer.blockentity.TerminalRenderer;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
@@ -55,10 +54,6 @@ public class ClientUtils {
         ForgeModelBakery.addSpecialModel(ModelLocations.Target.CLAW_DOWN);
         ForgeModelBakery.addSpecialModel(ModelLocations.Target.CLAW_LEFT);
         ForgeModelBakery.addSpecialModel(ModelLocations.Target.CLAW_RIGHT);
-    }
-
-    public static void openTerminalScreen() {
-        Minecraft.getInstance().setScreen(new TerminalScreen());
     }
 
     public static void openRailgunScreen(BlockPos blockEntityPos, Map<BlockPos, Optional<String>> possibleTargets,

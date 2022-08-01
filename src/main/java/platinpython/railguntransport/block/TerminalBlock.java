@@ -33,7 +33,6 @@ import platinpython.railguntransport.util.multiblock.MultiblockType;
 import platinpython.railguntransport.util.network.NetworkHandler;
 import platinpython.railguntransport.util.network.packets.RailgunScreenOpenPKT;
 import platinpython.railguntransport.util.network.packets.TargetScreenOpenPKT;
-import platinpython.railguntransport.util.network.packets.TerminalScreenOpenPKT;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 import platinpython.railguntransport.util.saveddata.TargetSavedData;
 
@@ -124,7 +123,7 @@ public class TerminalBlock extends BaseEntityBlock {
         }
     }
 
-    @SuppressWarnings({"deprecation", "InstantiationOfUtilityClass"})
+    @SuppressWarnings("deprecation")
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
                                  BlockHitResult hit) {
@@ -163,9 +162,8 @@ public class TerminalBlock extends BaseEntityBlock {
                         );
                     }
                 }
-                case NONE -> NetworkHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                                                          new TerminalScreenOpenPKT()
-                );
+                case NONE -> {
+                }
             }
             return InteractionResult.CONSUME;
         }

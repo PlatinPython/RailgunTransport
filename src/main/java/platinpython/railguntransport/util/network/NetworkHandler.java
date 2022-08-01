@@ -11,7 +11,6 @@ import platinpython.railguntransport.util.network.packets.RailgunScreenOpenPKT;
 import platinpython.railguntransport.util.network.packets.RailgunUpdateSelectedTargetPKT;
 import platinpython.railguntransport.util.network.packets.TargetScreenOpenPKT;
 import platinpython.railguntransport.util.network.packets.TargetUpdateNamePKT;
-import platinpython.railguntransport.util.network.packets.TerminalScreenOpenPKT;
 
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
@@ -23,11 +22,6 @@ public class NetworkHandler {
     @SuppressWarnings("UnusedAssignment")
     public static void register() {
         int index = 0;
-        INSTANCE.messageBuilder(TerminalScreenOpenPKT.class, index++, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(TerminalScreenOpenPKT::encode)
-                .decoder(TerminalScreenOpenPKT::decode)
-                .consumer(TerminalScreenOpenPKT.Handler::handle)
-                .add();
         INSTANCE.messageBuilder(RailgunScreenOpenPKT.class, index++, NetworkDirection.PLAY_TO_CLIENT)
                 .encoder(RailgunScreenOpenPKT::encode)
                 .decoder(RailgunScreenOpenPKT::decode)
