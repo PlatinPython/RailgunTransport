@@ -156,8 +156,13 @@ public class TerminalBlockEntity extends BlockEntity {
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            //noinspection ConstantConditions
-            Direction facing = this.level.getBlockState(this.worldPosition).getValue(TerminalBlock.HORIZONTAL_FACING);
+            Direction facing;
+            if (side == null) {
+                facing = Direction.NORTH;
+            } else {
+                //noinspection ConstantConditions
+                facing = this.level.getBlockState(this.worldPosition).getValue(TerminalBlock.HORIZONTAL_FACING);
+            }
             if (side == null || side == facing.getCounterClockWise() || side == facing.getClockWise() || side == Direction.DOWN) {
                 if (this.getBlockState().getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.NONE) {
                     return handler.cast();
@@ -225,8 +230,8 @@ public class TerminalBlockEntity extends BlockEntity {
                         if (!blockEntity.itemHandler.extractItem(0, 1, true).isEmpty()) {
                             MovingCapsuleSavedData.get(serverLevel.getDataStorage())
                                                   .add(blockEntity.itemHandler.extractItem(0, 1, false)
-                                                                              .getOrCreateTag(),
-                                                       senderPos, targetPos, level.dimension()
+                                                                              .getOrCreateTag(), senderPos, targetPos,
+                                                       level.dimension()
                                                   );
 
                             optionalTargetData.get().setFree(false);
