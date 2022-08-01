@@ -1,0 +1,23 @@
+{
+  "parent": "block/block",
+  "texture_size": [32, 32],
+  "textures": {
+    "10": "railguntransport:block/target/hydraulic",
+    "particle": "block/polished_blackstone"
+  },
+  "elements": [
+    {
+      "name": "hydraulic_shaft_middle",
+      "from": [5, 0, 3],
+      "to": [11, 6, 13],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 3, 8]},
+      "faces": {
+        "north": {"uv": [10, 0, 16, 6], "texture": "#10"},
+        "east": {"uv": [4, 0, 10, 10], "rotation": 90, "texture": "#10"},
+        "west": {"uv": [4, 0, 10, 10], "rotation": 90, "texture": "#10"},
+        "up": {"uv": [4, 0, 10, 10], "texture": "#10"},
+        "down": {"uv": [4, 0, 10, 10], "texture": "#10"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "11": "railguntransport:block/railgun/gun_rails",
+    "13": "railguntransport:block/railgun/gun_walls",
+    "particle": "block/cut_copper"
+  },
+  "elements": [
+    {
+      "name": "gun_rail",
+      "from": [0, 0, -16],
+      "to": [4, 4, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [2, 2, 3, 3], "texture": "#11"},
+        "east": {"uv": [0, 0, 7.5, 1], "texture": "#11"},
+        "south": {"uv": [2, 3, 3, 4], "texture": "#11"},
+        "west": {"uv": [0, 1, 7.5, 2], "texture": "#11"},
+        "up": {"uv": [1, 9.5, 0, 2], "texture": "#11"},
+        "down": {"uv": [2, 2, 1, 9.5], "texture": "#11"}
+      }
+    },
+    {
+      "name": "gun_rail",
+      "from": [12, 0, -16],
+      "to": [16, 4, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [2, 2, 3, 3], "rotation": 90, "texture": "#11"},
+        "east": {"uv": [2, 2, 1, 9.5], "rotation": 270, "texture": "#11"},
+        "south": {"uv": [2, 3, 3, 4], "rotation": 270, "texture": "#11"},
+        "west": {"uv": [1, 9.5, 0, 2], "rotation": 270, "texture": "#11"},
+        "up": {"uv": [0, 0, 7.5, 1], "rotation": 270, "texture": "#11"},
+        "down": {"uv": [0, 1, 7.5, 2], "rotation": 270, "texture": "#11"}
+      }
+    },
+    {
+      "name": "gun_rail",
+      "from": [12, 12, -16],
+      "to": [16, 16, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [2, 2, 3, 3], "rotation": 180, "texture": "#11"},
+        "east": {"uv": [0, 1, 7.5, 2], "rotation": 180, "texture": "#11"},
+        "south": {"uv": [2, 3, 3, 4], "rotation": 180, "texture": "#11"},
+        "west": {"uv": [0, 0, 7.5, 1], "rotation": 180, "texture": "#11"},
+        "up": {"uv": [2, 2, 1, 9.5], "rotation": 180, "texture": "#11"},
+        "down": {"uv": [1, 9.5, 0, 2], "rotation": 180, "texture": "#11"}
+      }
+    },
+    {
+      "name": "gun_rail",
+      "from": [0, 12, -16],
+      "to": [4, 16, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [2, 2, 3, 3], "rotation": 270, "texture": "#11"},
+        "east": {"uv": [1, 9.5, 0, 2], "rotation": 90, "texture": "#11"},
+        "south": {"uv": [2, 3, 3, 4], "rotation": 90, "texture": "#11"},
+        "west": {"uv": [2, 2, 1, 9.5], "rotation": 90, "texture": "#11"},
+        "up": {"uv": [0, 1, 7.5, 2], "rotation": 90, "texture": "#11"},
+        "down": {"uv": [0, 0, 7.5, 1], "rotation": 90, "texture": "#11"}
+      }
+    },
+    {
+      "name": "gun_wall",
+      "from": [1, 4, -4],
+      "to": [3, 12, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [1, 4, 1.5, 6], "texture": "#13"},
+        "east": {"uv": [4.5, 0, 0, 2], "texture": "#13"},
+        "south": {"uv": [1.5, 4, 2, 6], "texture": "#13"},
+        "west": {"uv": [0, 2, 4.5, 4], "texture": "#13"},
+        "up": {"uv": [0.5, 8.5, 0, 4], "texture": "#13"},
+        "down": {"uv": [1, 4, 0.5, 8.5], "texture": "#13"}
+      }
+    },
+    {
+      "name": "gun_wall",
+      "from": [4, 1, -4],
+      "to": [12, 3, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [1, 4, 1.5, 6], "rotation": 90, "texture": "#13"},
+        "east": {"uv": [1, 4, 0.5, 8.5], "rotation": 270, "texture": "#13"},
+        "south": {"uv": [1.5, 4, 2, 6], "rotation": 270, "texture": "#13"},
+        "west": {"uv": [0.5, 8.5, 0, 4], "rotation": 270, "texture": "#13"},
+        "up": {"uv": [4.5, 0, 0, 2], "rotation": 270, "texture": "#13"},
+        "down": {"uv": [0, 2, 4.5, 4], "rotation": 270, "texture": "#13"}
+      }
+    },
+    {
+      "name": "gun_wall",
+      "from": [13, 4, -4],
+      "to": [15, 12, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [1, 4, 1.5, 6], "rotation": 180, "texture": "#13"},
+        "east": {"uv": [0, 2, 4.5, 4], "rotation": 180, "texture": "#13"},
+        "south": {"uv": [1.5, 4, 2, 6], "rotation": 180, "texture": "#13"},
+        "west": {"uv": [4.5, 2, 0, 0], "rotation": 180, "texture": "#13"},
+        "up": {"uv": [1, 4, 0.5, 8.5], "rotation": 180, "texture": "#13"},
+        "down": {"uv": [0.5, 8.5, 0, 4], "rotation": 180, "texture": "#13"}
+      }
+    },
+    {
+      "name": "gun_wall",
+      "from": [4, 13, -4],
+      "to": [12, 15, 14],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 14]},
+      "faces": {
+        "north": {"uv": [1, 4, 1.5, 6], "rotation": 270, "texture": "#13"},
+        "east": {"uv": [0.5, 8.5, 0, 4], "rotation": 90, "texture": "#13"},
+        "south": {"uv": [1.5, 4, 2, 6], "rotation": 90, "texture": "#13"},
+        "west": {"uv": [1, 4, 0.5, 8.5], "rotation": 90, "texture": "#13"},
+        "up": {"uv": [0, 2, 4.5, 4], "rotation": 90, "texture": "#13"},
+        "down": {"uv": [4.5, 2, 0, 0], "rotation": 90, "texture": "#13"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "GunHold",
+      "origin": [0, 0, 0],
+      "color": 0,
+      "children": [0, 1, 2, 3, 4, 5, 6, 7]
+    }
+  ]
+}

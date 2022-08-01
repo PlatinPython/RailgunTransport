@@ -1,0 +1,46 @@
+{
+  "parent": "block/block",
+  "texture_size": [32, 32],
+  "textures": {
+    "19": "railguntransport:block/target/grabber",
+    "particle": "block/polished_blackstone"
+  },
+  "elements": [
+    {
+      "name": "lower_grabber",
+      "from": [12.82743, -0.002, 18],
+      "to": [21.82743, 8, 20],
+      "rotation": {"angle": 45, "axis": "y", "origin": [7.999, 4, 19]},
+      "faces": {
+        "north": {"uv": [7.998, 0, 16, 9], "rotation": 270, "texture": "#19"},
+        "east": {"uv": [0, 14, 8.002, 16], "rotation": 270, "texture": "#19"},
+        "south": {"uv": [8.002, 9, 0, 0], "rotation": 270, "texture": "#19"},
+        "west": {"uv": [0, 16, 8.002, 14], "rotation": 270, "texture": "#19"},
+        "up": {"uv": [0, 12, 9, 14], "rotation": 180, "texture": "#19"},
+        "down": {"uv": [3, 12, 12, 14], "rotation": 180, "texture": "#19"}
+      }
+    },
+    {
+      "name": "upper_grabber",
+      "from": [19.999, -0.001, 2.17157],
+      "to": [21.999, 7.999, 14.17157],
+      "rotation": {"angle": 22.5, "axis": "y", "origin": [7.999, 3.999, 19]},
+      "faces": {
+        "north": {"uv": [0, 16, 8, 14], "rotation": 90, "texture": "#19"},
+        "east": {"uv": [0, 0, 8, 12], "rotation": 90, "texture": "#19"},
+        "south": {"uv": [0, 14, 8, 16], "rotation": 90, "texture": "#19"},
+        "west": {"uv": [8, 0, 16, 12], "rotation": 90, "texture": "#19"},
+        "up": {"uv": [0, 12, 12, 14], "rotation": 90, "texture": "#19"},
+        "down": {"uv": [12, 12, 0, 14], "rotation": 90, "texture": "#19"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Claw",
+      "origin": [7.999, 4.999, 5],
+      "color": 0,
+      "children": [0, 1]
+    }
+  ]
+}

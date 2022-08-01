@@ -1,0 +1,46 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "6": "railguntransport:block/mount_base",
+    "7": "railguntransport:block/railgun/gun_mount_connector",
+    "particle": "block/cut_copper"
+  },
+  "elements": [
+    {
+      "name": "mount_base",
+      "from": [-3, 0, 3],
+      "to": [19, 2, 29],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
+      "faces": {
+        "north": {"uv": [0, 7, 5.5, 7.5], "texture": "#6"},
+        "east": {"uv": [0, 6.5, 6.5, 7], "texture": "#6"},
+        "south": {"uv": [5.5, 7, 11, 7.5], "texture": "#6"},
+        "west": {"uv": [6.5, 6.5, 13, 7], "texture": "#6"},
+        "up": {"uv": [0, 6.5, 5.5, 0], "texture": "#6"},
+        "down": {"uv": [5.5, 0, 11, 6.5], "texture": "#6"}
+      }
+    },
+    {
+      "name": "mount_connector",
+      "from": [2, 2, 14],
+      "to": [14, 10, 24],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
+      "faces": {
+        "north": {"uv": [6, 0, 12, 4], "texture": "#7"},
+        "east": {"uv": [6, 8, 11, 12], "texture": "#7"},
+        "south": {"uv": [6, 4, 12, 8], "texture": "#7"},
+        "west": {"uv": [6, 8, 11, 12], "texture": "#7"},
+        "up": {"uv": [6, 5, 0, 0], "texture": "#7"},
+        "down": {"uv": [0, 5, 6, 10], "texture": "#7"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "GunMount",
+      "origin": [0, 0, 0],
+      "color": 0,
+      "children": [0, 1]
+    }
+  ]
+}

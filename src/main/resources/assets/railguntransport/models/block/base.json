@@ -1,0 +1,48 @@
+{
+  "parent": "block/block",
+  "texture_size": [32, 32],
+  "textures": {
+    "0": "railguntransport:block/netherite_multi_block",
+    "1": "railguntransport:block/netherite_multi_block_border",
+    "11": "railguntransport:block/iron_rod",
+    "particle": "block/polished_blackstone"
+  },
+  "elements": [
+    {
+      "name": "base_rod",
+      "from": [6, 4, 5],
+      "to": [10, 7, 9],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 7]},
+      "faces": {
+        "north": {"uv": [4, 0, 8, 3], "texture": "#11"},
+        "east": {"uv": [4, 0, 8, 3], "texture": "#11"},
+        "south": {"uv": [4, 0, 8, 3], "texture": "#11"},
+        "west": {"uv": [4, 0, 8, 3], "texture": "#11"},
+        "up": {"uv": [0, 0, 4, 4], "texture": "#11"},
+        "down": {"uv": [0, 0, 4, 4], "texture": "#11"}
+      }
+    },
+    {
+      "name": "base",
+      "from": [-16, 0, -16],
+      "to": [32, 4, 32],
+      "rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 7]},
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#1"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#1"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#0"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "Base",
+      "origin": [0, 0, 0],
+      "color": 0,
+      "children": [0, 1]
+    }
+  ]
+}

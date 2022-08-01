@@ -61,7 +61,6 @@ public class RailgunData {
         }
     }
 
-    @SuppressWarnings("unused")
     public double getYaw() {
         return this.yaw;
     }

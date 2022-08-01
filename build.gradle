@@ -85,8 +85,15 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+repositories {
+    maven { url 'https://modmaven.dev/' }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.68'
+
+    // For item interaction testing
+    runtimeOnly fg.deobf("mekanism:Mekanism:1.18.2-10.2.5.465")
 }
 
 jar {

@@ -1,0 +1,59 @@
+{
+  "parent": "block/block",
+  "texture_size": [32, 32],
+  "textures": {
+    "10": "railguntransport:block/target/hydraulic",
+    "12": "railguntransport:block/target/piston_catch",
+    "particle": "block/polished_blackstone"
+  },
+  "elements": [
+    {
+      "name": "piston_catch",
+      "from": [4, 0, 2],
+      "to": [12, 8, 4],
+      "rotation": {"angle": 0, "axis": "z", "origin": [8, 4, 6]},
+      "faces": {
+        "north": {"uv": [8, 0, 16, 8], "texture": "#12"},
+        "east": {"uv": [0, 4, 8, 6], "rotation": 90, "texture": "#12"},
+        "south": {"uv": [8, 0, 16, 8], "texture": "#12"},
+        "west": {"uv": [0, 4, 8, 6], "rotation": 90, "texture": "#12"},
+        "up": {"uv": [0, 4, 8, 6], "texture": "#12"},
+        "down": {"uv": [0, 4, 8, 6], "texture": "#12"}
+      }
+    },
+    {
+      "name": "piston_back",
+      "from": [4, 2, 4],
+      "to": [12, 6, 6],
+      "rotation": {"angle": 0, "axis": "z", "origin": [8, 4, 6]},
+      "faces": {
+        "north": {"uv": [0, 0, 8, 4], "texture": "#12"},
+        "east": {"uv": [0, 4, 4, 6], "rotation": 90, "texture": "#12"},
+        "south": {"uv": [0, 0, 8, 4], "texture": "#12"},
+        "west": {"uv": [4, 4, 8, 6], "rotation": 90, "texture": "#12"},
+        "up": {"uv": [0, 4, 8, 6], "texture": "#12"},
+        "down": {"uv": [0, 4, 8, 6], "texture": "#12"}
+      }
+    },
+    {
+      "name": "hydraulic_shaft_front",
+      "from": [6, 2, 4],
+      "to": [10, 6, 14],
+      "rotation": {"angle": 0, "axis": "z", "origin": [8, 4, 6]},
+      "faces": {
+        "east": {"uv": [0, 10, 4, 0], "rotation": 90, "texture": "#10"},
+        "west": {"uv": [0, 0, 4, 10], "rotation": 90, "texture": "#10"},
+        "up": {"uv": [0, 10, 4, 0], "texture": "#10"},
+        "down": {"uv": [0, 0, 4, 10], "texture": "#10"}
+      }
+    }
+  ],
+  "groups": [
+    {
+      "name": "PistonFront",
+      "origin": [0, 0, 0],
+      "color": 0,
+      "children": [0, 1, 2]
+    }
+  ]
+}

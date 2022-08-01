@@ -107,7 +107,14 @@ public class TerminalBlockEntity extends BlockEntity {
                     yield new CompoundTag();
                 }
             }
-            case TARGET, NONE -> new CompoundTag();
+            case TARGET -> {
+                if (this.targetData.isPresent()) {
+                    yield this.targetData.get().getUpdateTag();
+                } else {
+                    yield new CompoundTag();
+                }
+            }
+            case NONE -> new CompoundTag();
         };
     }
 
@@ -120,7 +127,13 @@ public class TerminalBlockEntity extends BlockEntity {
                 }
                 this.railgunData.get().handleUpdateTag(tag);
             }
-            case TARGET, NONE -> {
+            case TARGET -> {
+                if (this.targetData.isEmpty()) {
+                    this.targetData = Optional.of(new TargetData(this));
+                }
+                this.targetData.get().handleUpdateTag(tag);
+            }
+            case NONE -> {
             }
         }
     }
@@ -235,6 +248,7 @@ public class TerminalBlockEntity extends BlockEntity {
                                                   );
 
                             optionalTargetData.get().setFree(false);
+                            optionalTargetData.get().setOrigin(Optional.of(senderPos));
                         }
                     }
                 }

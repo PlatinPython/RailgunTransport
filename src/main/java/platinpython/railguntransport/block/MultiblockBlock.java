@@ -2,6 +2,8 @@ package platinpython.railguntransport.block;
 
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -73,6 +75,14 @@ public class MultiblockBlock extends BaseEntityBlock {
                 Optional<TerminalBlockEntity> terminalBlockEntity = level.getBlockEntity(
                         blockEntity.get().getTerminalPos(), BlockEntityRegistry.TERMINAL.get());
                 terminalBlockEntity.ifPresent(MultiblockHelper::disassemble);
+                //TODO: somehow drop the correct block, this does not work
+                if (newState.is(blockEntity.get().getBlockState().getBlock())) {
+                    ItemEntity itemEntity = new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 0.5, pos.getZ() + 0.5,
+                                                           new ItemStack(
+                                                                   blockEntity.get().getSavedBlockState().getBlock())
+                    );
+                    level.addFreshEntity(itemEntity);
+                }
             }
         }
         super.onRemove(state, level, pos, newState, isMoving);
