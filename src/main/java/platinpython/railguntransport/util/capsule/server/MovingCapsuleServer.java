@@ -82,7 +82,7 @@ public class MovingCapsuleServer {
                 }
             }
         }
-        level.addFreshEntity(new ItemEntity(level, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), stack));
+        level.addFreshEntity(new ItemEntity(level, spawnPos.getX() + 0.5D, spawnPos.getY() + 0.5D, spawnPos.getZ() + 0.5D, stack));
         return true;
     }
 
