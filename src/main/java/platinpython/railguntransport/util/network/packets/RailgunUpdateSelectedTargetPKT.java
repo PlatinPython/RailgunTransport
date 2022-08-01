@@ -37,7 +37,6 @@ public class RailgunUpdateSelectedTargetPKT {
                 if (blockEntity instanceof TerminalBlockEntity terminalBlockEntity) {
                     terminalBlockEntity.getRailgunData()
                                        .ifPresent(data -> data.setSelectedTarget(message.selectedTarget));
-                    terminalBlockEntity.tryCapsuleSend();
                 }
             });
             context.get().setPacketHandled(true);
