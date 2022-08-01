@@ -141,7 +141,17 @@ public class TerminalBlockEntity extends BlockEntity {
     }
 
     private ItemStackHandler createHandler() {
-        return new TerminalItemStackHandler();
+        return new ItemStackHandler() {
+            @Override
+            protected void onContentsChanged(int slot) {
+                TerminalBlockEntity.this.setChanged();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return stack.getItem() == BlockRegistry.CAPSULE.get().asItem();
+            }
+        };
     }
 
     @Override
@@ -149,8 +159,10 @@ public class TerminalBlockEntity extends BlockEntity {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             //noinspection ConstantConditions
             Direction facing = this.level.getBlockState(this.worldPosition).getValue(TerminalBlock.HORIZONTAL_FACING);
-            if (side == null || side == facing.getCounterClockWise() || side == facing.getClockWise()) {
-                return handler.cast();
+            if (side == null || side == facing.getCounterClockWise() || side == facing.getClockWise() || side == Direction.DOWN) {
+                if (this.getBlockState().getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.NONE) {
+                    return handler.cast();
+                }
             }
         }
         return super.getCapability(cap, side);
@@ -182,62 +194,49 @@ public class TerminalBlockEntity extends BlockEntity {
         this.setChanged();
     }
 
-    public void tryCapsuleSend() {
-        switch (this.getBlockState().getValue(TerminalBlock.MULTIBLOCK_TYPE)) {
-            case RAILGUN -> this.railgunData.ifPresent(data -> data.getSelectedTarget()
-                                                                   .ifPresentOrElse(
-                                                                           blockPos -> RailgunTransport.LOGGER.info(
-                                                                                   "Sending capsule to {}.",
-                                                                                   blockPos.toShortString()
-                                                                           ), () -> RailgunTransport.LOGGER.info(
-                                                                                   "Not sending capsule.")));
-            case TARGET -> RailgunTransport.LOGGER.info("Not sending capsule because is target.");
-            case NONE -> RailgunTransport.LOGGER.info("Not sending capsule because is none.");
-        }
-    }
-
-    @SuppressWarnings("unused")
     public static void tick(Level level, BlockPos pos, BlockState state, TerminalBlockEntity blockEntity) {
-        if (blockEntity.railgunData.isPresent() && blockEntity.railgunData.get()
-                                                                          .getSelectedTarget()
-                                                                          .isPresent() && level instanceof ServerLevel serverLevel) {
-            MovingCapsuleSavedData.get(serverLevel.getDataStorage())
-                                  .add(new CompoundTag(), blockEntity.getBlockPos().offset(0, 1, 0),
-                                       blockEntity.railgunData.get().getSelectedTarget().get(), level.dimension()
-                                  );
-        }
-    }
-
-    private class TerminalItemStackHandler extends ItemStackHandler {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() == BlockRegistry.CAPSULE.get().asItem();
-        }
-
-        @NotNull
-        @Override
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            if (TerminalBlockEntity.this.getBlockState()
-                                        .getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.RAILGUN) {
-                return stack;
-            } else {
-                return super.insertItem(slot, stack, simulate);
+        if (state.getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.RAILGUN) {
+            if (state.getValue(TerminalBlock.MULTIBLOCK_TYPE) == MultiblockType.TARGET) {
+                blockEntity.getTargetData().ifPresent(data -> RailgunTransport.LOGGER.info("{}", data.isFree()));
             }
+            return;
         }
+        Optional<BlockPos> selectedTarget = blockEntity.railgunData.flatMap(RailgunData::getSelectedTarget);
+        if (selectedTarget.isEmpty()) {
+            return;
+        }
+        if (level instanceof ServerLevel serverLevel) {
+            Optional<TerminalBlockEntity> optionalTargetTerminal = level.getBlockEntity(selectedTarget.get(),
+                                                                                        BlockEntityRegistry.TERMINAL.get()
+            );
 
-        @NotNull
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (TerminalBlockEntity.this.getBlockState()
-                                        .getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.TARGET) {
-                return ItemStack.EMPTY;
-            } else {
-                return super.extractItem(slot, amount, simulate);
+            if (optionalTargetTerminal.isPresent()) {
+                Optional<IItemHandler> optionalHandler = optionalTargetTerminal.get()
+                                                                               .getCapability(
+                                                                                       CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+                                                                               .resolve();
+                if (optionalHandler.isPresent() && optionalHandler.get().getStackInSlot(0).isEmpty()) {
+                    Optional<TargetData> optionalTargetData = optionalTargetTerminal.get().getTargetData();
+                    if (optionalTargetData.isPresent() && optionalTargetData.get().isFree()) {
+                        Direction senderDirection = state.getValue(TerminalBlock.HORIZONTAL_FACING).getOpposite();
+                        BlockPos senderPos = pos.above().relative(senderDirection, 2);
+
+                        Direction targetDirection = level.getBlockState(selectedTarget.get())
+                                                         .getValue(TerminalBlock.HORIZONTAL_FACING)
+                                                         .getOpposite();
+                        BlockPos targetPos = selectedTarget.get().above().relative(targetDirection, 2);
+
+                        if (!blockEntity.itemHandler.extractItem(0, 1, true).isEmpty()) {
+                            MovingCapsuleSavedData.get(serverLevel.getDataStorage())
+                                                  .add(blockEntity.itemHandler.extractItem(0, 1, false)
+                                                                              .getOrCreateTag(),
+                                                       senderPos, targetPos, level.dimension()
+                                                  );
+
+                            optionalTargetData.get().setFree(false);
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,16 +1,20 @@
 package platinpython.railguntransport.util.capsule.server;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import platinpython.railguntransport.block.CapsuleBlock;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import platinpython.railguntransport.block.entity.MultiblockBlockEntity;
+import platinpython.railguntransport.block.entity.TerminalBlockEntity;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
 import platinpython.railguntransport.util.registries.BlockRegistry;
+
+import java.util.Optional;
 
 public class MovingCapsuleServer {
     private final CompoundTag capsuleData;
@@ -44,23 +48,41 @@ public class MovingCapsuleServer {
             return false;
         }
 
-        if (level.getBlockState(this.target).is(Blocks.AIR)) {
-            level.setBlock(this.target,
-                           BlockRegistry.CAPSULE.get()
-                                                .defaultBlockState()
-                                                .setValue(CapsuleBlock.FACING, Direction.DOWN),
-                           Block.UPDATE_ALL
-            );
-            level.getBlockEntity(this.target, BlockEntityRegistry.CAPSULE.get()).ifPresent(blockEntity -> {
-                CompoundTag tag = blockEntity.saveWithoutMetadata();
-                CompoundTag tagCopy = tag.copy();
-                tag.merge(this.capsuleData);
-                if (!tag.equals(tagCopy)) {
-                    blockEntity.load(tag);
-                    blockEntity.setChanged();
-                }
-            });
+        BlockPos spawnPos = this.target;
+        ItemStack stack = new ItemStack(BlockRegistry.CAPSULE.get().asItem());
+        CompoundTag tag = stack.getOrCreateTag();
+        CompoundTag tagCopy = tag.copy();
+        tag.merge(this.capsuleData);
+        if (!tag.equals(tagCopy)) {
+            stack.setTag(tag);
         }
+
+        Optional<MultiblockBlockEntity> maybeMultiblockBlockEntity = level.getBlockEntity(this.target,
+                                                                                          BlockEntityRegistry.MULTIBLOCK.get()
+        );
+        if (maybeMultiblockBlockEntity.isPresent()) {
+            spawnPos = maybeMultiblockBlockEntity.get().getTerminalPos();
+
+            Optional<TerminalBlockEntity> maybeTerminalBlockEntity = maybeMultiblockBlockEntity.flatMap(
+                    blockEntity -> level.getBlockEntity(blockEntity.getTerminalPos(),
+                                                        BlockEntityRegistry.TERMINAL.get()
+                    ));
+            if (maybeTerminalBlockEntity.isPresent()) {
+                Optional<IItemHandler> handler = maybeTerminalBlockEntity.get()
+                                                                         .getCapability(
+                                                                                 CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+                                                                         .resolve();
+                if (handler.isPresent()) {
+                    if (handler.get().insertItem(0, stack, true).isEmpty()) {
+                        handler.get().insertItem(0, stack, false);
+                        maybeTerminalBlockEntity.flatMap(TerminalBlockEntity::getTargetData)
+                                                .ifPresent(data -> data.setFree(true));
+                        return true;
+                    }
+                }
+            }
+        }
+        level.addFreshEntity(new ItemEntity(level, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), stack));
         return true;
     }
 
