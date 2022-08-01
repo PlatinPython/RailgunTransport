@@ -66,17 +66,7 @@ public class ModLootTableProvider extends LootTableProvider {
                                                                                                                                ContextNbtProvider.BLOCK_ENTITY)
                                                                                                                        .copy("Inventory",
                                                                                                                              "BlockEntityTag.Inventory"
-                                                                                                                       )
-//                                                                                                                    .copy("Lock",
-//                                                                                                                          "BlockEntityTag.Lock"
-//                                                                                                                    )
-//                                                                                                                    .copy("LootTable",
-//                                                                                                                          "BlockEntityTag.LootTable"
-//                                                                                                                    )
-//                                                                                                                    .copy("LootTableSeed",
-//                                                                                                                          "BlockEntityTag.LootTableSeed"
-//                                                                                                                    ))
-                                                                                                 )
+                                                                                                                       ))
                                                                                                  .apply(SetContainerContents.setContents(
                                                                                                                                     BlockEntityRegistry.CAPSULE.get())
                                                                                                                             .withEntry(

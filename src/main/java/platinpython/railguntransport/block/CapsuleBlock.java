@@ -9,6 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
@@ -29,7 +30,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,6 +44,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.block.entity.CapsuleBlockEntity;
 import platinpython.railguntransport.menu.CapsuleMenu;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
@@ -54,6 +55,7 @@ import java.util.Optional;
 
 public class CapsuleBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final ResourceLocation CONTENTS = new ResourceLocation(RailgunTransport.MOD_ID, "contents");
 
     public CapsuleBlock() {
         super(Properties.of(Material.METAL)
@@ -164,7 +166,7 @@ public class CapsuleBlock extends BaseEntityBlock {
             Optional<IItemHandler> items = capsuleBlockEntity.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).resolve();
             if (items.isPresent()) {
-                builder = builder.withDynamicDrop(ShulkerBoxBlock.CONTENTS, (lootContext, stackConsumer) -> {
+                builder = builder.withDynamicDrop(CONTENTS, (lootContext, stackConsumer) -> {
                     for (int i = 0; i < items.get().getSlots(); i++) {
                         stackConsumer.accept(items.get().getStackInSlot(i));
                     }
