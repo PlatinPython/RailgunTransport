@@ -20,7 +20,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import platinpython.railguntransport.RailgunTransport;
 import platinpython.railguntransport.block.TerminalBlock;
 import platinpython.railguntransport.util.multiblock.MultiblockType;
 import platinpython.railguntransport.util.registries.BlockEntityRegistry;
@@ -196,9 +195,6 @@ public class TerminalBlockEntity extends BlockEntity {
 
     public static void tick(Level level, BlockPos pos, BlockState state, TerminalBlockEntity blockEntity) {
         if (state.getValue(TerminalBlock.MULTIBLOCK_TYPE) != MultiblockType.RAILGUN) {
-            if (state.getValue(TerminalBlock.MULTIBLOCK_TYPE) == MultiblockType.TARGET) {
-                blockEntity.getTargetData().ifPresent(data -> RailgunTransport.LOGGER.info("{}", data.isFree()));
-            }
             return;
         }
         Optional<BlockPos> selectedTarget = blockEntity.railgunData.flatMap(RailgunData::getSelectedTarget);

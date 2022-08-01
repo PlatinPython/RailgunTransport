@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-import platinpython.railguntransport.RailgunTransport;
 
 import java.util.Optional;
 
@@ -52,9 +51,7 @@ public class RailgunData {
     public void setSelectedTarget(Optional<BlockPos> selectedTarget) {
         this.selectedTarget = selectedTarget;
         double[] angles = this.getAngles();
-        RailgunTransport.LOGGER.info("{}", angles);
         this.yaw = angles[0];
-        RailgunTransport.LOGGER.info("{}", this.yaw);
         this.pitch = angles[1];
         if (this.parent.getLevel() != null) {
             this.parent.getLevel()
