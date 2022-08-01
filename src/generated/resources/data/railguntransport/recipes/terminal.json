@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BSB",
+    "DHD",
+    " S "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:polished_blackstone_slab"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "result": {
+    "item": "railguntransport:terminal"
+  }
+}
