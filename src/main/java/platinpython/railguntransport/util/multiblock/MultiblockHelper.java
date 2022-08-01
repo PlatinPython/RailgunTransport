@@ -17,26 +17,32 @@ import platinpython.railguntransport.util.registries.BlockRegistry;
 import java.util.Optional;
 
 public class MultiblockHelper {
-    private static final BlockState BASE_BLOCK = Blocks.NETHERITE_BLOCK.defaultBlockState();
-    private static final ImmutableList<BlockState> RAILGUN_BLOCKS = ImmutableList.of(Blocks.AIR.defaultBlockState(),
-                                                                                     Blocks.AIR.defaultBlockState(),
-                                                                                     Blocks.AIR.defaultBlockState(),
-                                                                                     Blocks.DIAMOND_BLOCK.defaultBlockState(),
-                                                                                     Blocks.DIAMOND_BLOCK.defaultBlockState(),
-                                                                                     Blocks.DIAMOND_BLOCK.defaultBlockState(),
-                                                                                     Blocks.AIR.defaultBlockState(),
-                                                                                     Blocks.AIR.defaultBlockState(),
-                                                                                     Blocks.AIR.defaultBlockState()
+    private static final ImmutableList<Block> BASE_BLOCKS = ImmutableList.of(Blocks.SMOOTH_STONE, Blocks.SMOOTH_STONE,
+                                                                             Blocks.IRON_BLOCK, Blocks.SMOOTH_STONE,
+                                                                             Blocks.REDSTONE_BLOCK,
+                                                                             Blocks.NETHERITE_BLOCK,
+                                                                             Blocks.SMOOTH_STONE, Blocks.SMOOTH_STONE,
+                                                                             Blocks.IRON_BLOCK
     );
-    private static final ImmutableList<BlockState> TARGET_BLOCKS = ImmutableList.of(Blocks.AIR.defaultBlockState(),
-                                                                                    Blocks.AIR.defaultBlockState(),
-                                                                                    Blocks.AIR.defaultBlockState(),
-                                                                                    Blocks.SANDSTONE.defaultBlockState(),
-                                                                                    Blocks.SANDSTONE.defaultBlockState(),
-                                                                                    Blocks.SANDSTONE.defaultBlockState(),
-                                                                                    Blocks.AIR.defaultBlockState(),
-                                                                                    Blocks.AIR.defaultBlockState(),
-                                                                                    Blocks.AIR.defaultBlockState()
+
+    private static final ImmutableList<Block> RAILGUN_BLOCKS = ImmutableList.of(Blocks.POLISHED_BLACKSTONE,
+                                                                                Blocks.DIAMOND_BLOCK,
+                                                                                Blocks.POLISHED_BLACKSTONE_WALL,
+                                                                                Blocks.POLISHED_BLACKSTONE_STAIRS,
+                                                                                Blocks.COPPER_BLOCK, Blocks.DISPENSER,
+                                                                                Blocks.POLISHED_BLACKSTONE,
+                                                                                Blocks.DIAMOND_BLOCK,
+                                                                                Blocks.POLISHED_BLACKSTONE_WALL
+    );
+
+    private static final ImmutableList<Block> TARGET_BLOCKS = ImmutableList.of(Blocks.POLISHED_BLACKSTONE,
+                                                                               Blocks.POLISHED_BLACKSTONE,
+                                                                               Blocks.POLISHED_BLACKSTONE_WALL,
+                                                                               Blocks.DIAMOND_BLOCK,
+                                                                               Blocks.COPPER_BLOCK, Blocks.OBSERVER,
+                                                                               Blocks.POLISHED_BLACKSTONE,
+                                                                               Blocks.POLISHED_BLACKSTONE,
+                                                                               Blocks.POLISHED_BLACKSTONE_WALL
     );
 
     public static void tryAssemble(TerminalBlockEntity blockEntity) {
@@ -63,8 +69,11 @@ public class MultiblockHelper {
         BlockPos backRightCorner = blockEntity.getBlockPos()
                                               .relative(direction, 3)
                                               .relative(Rotation.CLOCKWISE_90.rotate(direction));
-        for (BlockPos pos : BlockPos.betweenClosed(frontLeftCorner, backRightCorner)) {
-            if (blockEntity.getLevel().getBlockState(pos) != BASE_BLOCK) {
+        for (int i = 0; i < 9; i++) {
+            BlockPos pos = blockEntity.getBlockPos()
+                                      .relative(direction, i % 3 + 1)
+                                      .relative(Rotation.CLOCKWISE_90.rotate(direction), i / 3 - 1);
+            if (!blockEntity.getLevel().getBlockState(pos).is(BASE_BLOCKS.get(i))) {
                 return MultiblockType.NONE;
             }
         }
@@ -76,9 +85,9 @@ public class MultiblockHelper {
         MultiblockType type;
         BlockState determiningState = blockEntity.getLevel()
                                                  .getBlockState(blockEntity.getBlockPos().above().relative(direction));
-        if (determiningState == RAILGUN_BLOCKS.get(4)) {
+        if (determiningState.is(RAILGUN_BLOCKS.get(3))) {
             type = MultiblockType.RAILGUN;
-        } else if (determiningState == TARGET_BLOCKS.get(4)) {
+        } else if (determiningState.is(TARGET_BLOCKS.get(3))) {
             type = MultiblockType.TARGET;
         } else {
             return MultiblockType.NONE;
@@ -90,12 +99,12 @@ public class MultiblockHelper {
                                       .relative(Rotation.CLOCKWISE_90.rotate(direction), i / 3 - 1);
             switch (type) {
                 case RAILGUN -> {
-                    if (blockEntity.getLevel().getBlockState(pos) != RAILGUN_BLOCKS.get(i)) {
+                    if (!blockEntity.getLevel().getBlockState(pos).is(RAILGUN_BLOCKS.get(i))) {
                         return MultiblockType.NONE;
                     }
                 }
                 case TARGET -> {
-                    if (blockEntity.getLevel().getBlockState(pos) != TARGET_BLOCKS.get(i)) {
+                    if (!blockEntity.getLevel().getBlockState(pos).is(TARGET_BLOCKS.get(i))) {
                         return MultiblockType.NONE;
                     }
                 }
