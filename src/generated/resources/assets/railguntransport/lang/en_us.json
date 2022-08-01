@@ -1,5 +1,5 @@
 {
   "block.railguntransport.capsule": "Capsule",
-  "block.railguntransport.railgun": "Railgun",
-  "block.railguntransport.target": "Target"
+  "block.railguntransport.multiblock": "",
+  "block.railguntransport.terminal": "Terminal"
 }

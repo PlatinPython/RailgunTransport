@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=north,multiblock_type=none": {
+      "model": "railguntransport:block/terminal/terminal"
+    },
+    "facing=south,multiblock_type=none": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 180
+    },
+    "facing=west,multiblock_type=none": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 270
+    },
+    "facing=east,multiblock_type=none": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 90
+    },
+    "facing=north,multiblock_type=railgun": {
+      "model": "railguntransport:block/terminal/terminal"
+    },
+    "facing=south,multiblock_type=railgun": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 180
+    },
+    "facing=west,multiblock_type=railgun": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 270
+    },
+    "facing=east,multiblock_type=railgun": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 90
+    },
+    "facing=north,multiblock_type=target": {
+      "model": "railguntransport:block/terminal/terminal"
+    },
+    "facing=south,multiblock_type=target": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 180
+    },
+    "facing=west,multiblock_type=target": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 270
+    },
+    "facing=east,multiblock_type=target": {
+      "model": "railguntransport:block/terminal/terminal",
+      "y": 90
+    }
+  }
+}
