@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:barrel"
+    },
+    "B": {
+      "item": "minecraft:polished_blackstone"
+    },
+    "C": {
+      "item": "minecraft:copper_block"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "B#B",
+    "ICI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "railgun_transport:capsule"
+  }
+}

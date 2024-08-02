@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "railgun_transport:block/terminal/terminal",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "railgun_transport:block/terminal/terminal"
+    },
+    "facing=south": {
+      "model": "railgun_transport:block/terminal/terminal",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "railgun_transport:block/terminal/terminal",
+      "y": 270
+    }
+  }
+}

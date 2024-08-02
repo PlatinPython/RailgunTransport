@@ -1,0 +1,5 @@
+// 1.21	2024-07-21T16:39:33.6671978	Block States: railgun_transport
+a8292c42576d4d5c74808a9d4f534ad8b1c20917 assets/railgun_transport/blockstates/capsule.json
+4c7997459096b6b9230ff413e13f9c7ede2a9ba8 assets/railgun_transport/blockstates/terminal.json
+0ec50dbb265b233caf20937ab893d7afc28b8001 assets/railgun_transport/models/item/capsule.json
+e8462ef12ba1081870c1fd8639f1002c1fa65661 assets/railgun_transport/models/item/terminal.json

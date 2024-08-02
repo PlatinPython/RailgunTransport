@@ -1,105 +1,95 @@
 plugins {
+    id 'java-library'
     id 'eclipse'
+    id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.neoforged.moddev' version '1.0.14'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 
 version = "${minecraft_version}-${mod_version}"
-group = 'platinpython.railguntransport'
-archivesBaseName = 'Railgun Transport'
+group = 'platinpython.railgun_transport'
+base.archivesName = 'Railgun Transport'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
-minecraft {
-    mappings channel: 'parchment', version: '2022.06.26-1.18.2'
+neoForge {
+    version = '21.0.86-beta'
+
+    parchment {
+        mappingsVersion = '2024.07.07'
+        minecraftVersion = '1.21'
+    }
 
     runs {
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+
         client {
-            workingDirectory project.file('run')
+            client()
 
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'railguntransport'
-
-            mods {
-                railguntransport {
-                    source sourceSets.main
-                }
-            }
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'railgun_transport'
         }
 
         server {
-            workingDirectory project.file('run')
+            server()
 
-            property 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'neoforge.enabledGameTestNamespaces', 'railgun_transport'
 
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'railguntransport'
-
-            mods {
-                railguntransport {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        gameTestServer {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            property 'forge.enabledGameTestNamespaces', 'railguntransport'
-
-            mods {
-                railguntransport {
-                    source sourceSets.main
-                }
-            }
+            programArgument '--nogui'
         }
 
         data {
-            workingDirectory project.file('run')
+            data()
 
-            property 'forge.logging.markers', 'REGISTRIES'
+            programArguments.addAll '--mod', 'railgun_transport', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+    }
 
-            property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'railguntransport', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-                railguntransport {
-                    source sourceSets.main
-                }
-            }
+    mods {
+        'railgun_transport' {
+            sourceSet(sourceSets.main)
         }
     }
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 repositories {
-    maven { url 'https://modmaven.dev/' }
+    maven {
+        url 'https://modmaven.dev/'
+    }
+    maven {
+        url = 'https://maven.lukebemish.dev/releases/'
+    }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.68'
+    compileOnly 'org.jspecify:jspecify:1.0.0'
+
+    implementation('dev.lukebemish:codecextras:2.3.1') {
+        capabilities {
+            requireCapability('dev.lukebemish:codecextras-stream')
+        }
+    }
 
     // For item interaction testing
-    runtimeOnly fg.deobf("mekanism:Mekanism:1.18.2-10.2.5.465")
+    localRuntime 'mekanism:Mekanism:1.21-10.6.5.52'
 }
 
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "railguntransport",
+                "Specification-Title"     : "railgun_transport",
                 "Specification-Vendor"    : "PlatinPython",
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : project.name,
@@ -110,8 +100,8 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar')
-
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+apply from: rootProject.file('codeformat/spotless-rules.gradle')

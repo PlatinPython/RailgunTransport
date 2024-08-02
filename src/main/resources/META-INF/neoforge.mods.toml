@@ -1,0 +1,20 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+issueTracker = "https://github.com/PlatinPython/RailgunTransport/issues"
+
+[[mods]]
+modId = "railgun_transport"
+version = "${file.jarVersion}"
+displayName = "Railgun Transport"
+credits = "Thanks TobiBenzi for the models"
+authors = "PlatinPython"
+description = "Yeet your items across the map with a railgun"
+
+[[dependencies.railgun_transport]]
+modId = "neoforge"
+versionRange = "[21.0,)"
+
+[[dependencies.railgun_transport]]
+modId = "minecraft"
+versionRange = "[1.21.0,)"

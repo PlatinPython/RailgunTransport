@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "railgun_transport:block/capsule/capsule",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "railgun_transport:block/capsule/capsule",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "railgun_transport:block/capsule/capsule",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "railgun_transport:block/capsule/capsule",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "railgun_transport:block/capsule/capsule"
+    },
+    "facing=west": {
+      "model": "railgun_transport:block/capsule/capsule",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

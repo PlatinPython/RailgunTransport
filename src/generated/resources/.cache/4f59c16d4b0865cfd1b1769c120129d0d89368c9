@@ -1,0 +1,4 @@
+// 1.21	2024-07-21T16:39:33.6641972	Tags for minecraft:block mod id railgun_transport
+5f354ea5d923d111a185212ab754e21a2936d324 data/minecraft/tags/block/guarded_by_piglins.json
+444331f1a908aa8a9238937edf6f4ca2e014944c data/minecraft/tags/block/mineable/pickaxe.json
+0eaa22e9968fdd5c1ee0b0a315bafb7fb8d39ab1 data/minecraft/tags/block/needs_iron_tool.json
