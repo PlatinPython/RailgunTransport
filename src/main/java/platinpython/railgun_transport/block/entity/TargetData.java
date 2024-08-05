@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.lukebemish.codecextras.Asymmetry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
@@ -50,10 +49,9 @@ public class TargetData {
         this.pitch = angles[1];
     }
 
-    protected Tag saveToTag() {
+    protected Optional<Tag> saveToTag() {
         return CODEC.encodeStart(NbtOps.INSTANCE, Asymmetry.ofEncoding(this))
-            .resultOrPartial(RailgunTransport.LOGGER::error)
-            .orElse(EndTag.INSTANCE);
+            .resultOrPartial(RailgunTransport.LOGGER::error);
     }
 
     public void load(Tag tag) {
@@ -65,14 +63,14 @@ public class TargetData {
 
     public CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
-        tag.putDouble("Yaw", this.yaw);
-        tag.putDouble("Pitch", this.pitch);
+        tag.putDouble("yaw", this.yaw);
+        tag.putDouble("pitch", this.pitch);
         return tag;
     }
 
     public void handleUpdateTag(CompoundTag tag) {
-        this.yaw = tag.getDouble("Yaw");
-        this.pitch = tag.getDouble("Pitch");
+        this.yaw = tag.getDouble("yaw");
+        this.pitch = tag.getDouble("pitch");
     }
 
     @SuppressWarnings("unused")

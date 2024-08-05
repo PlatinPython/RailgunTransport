@@ -5,7 +5,6 @@ import dev.lukebemish.codecextras.Asymmetry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -77,12 +76,9 @@ public class MovingCapsuleSavedData extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.put(
-            "moving_capsules",
-            CODEC.encodeStart(NbtOps.INSTANCE, Asymmetry.ofEncoding(this))
-                .resultOrPartial(RailgunTransport.LOGGER::error)
-                .orElse(EndTag.INSTANCE)
-        );
+        CODEC.encodeStart(NbtOps.INSTANCE, Asymmetry.ofEncoding(this))
+            .resultOrPartial(RailgunTransport.LOGGER::error)
+            .ifPresent(capsules -> tag.put("moving_capsules", capsules));
         return tag;
     }
 

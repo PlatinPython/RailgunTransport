@@ -7,8 +7,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jspecify.annotations.Nullable;
+import platinpython.railgun_transport.RailgunTransport;
 import platinpython.railgun_transport.block.CapsuleBlock;
 import platinpython.railgun_transport.menu.CapsuleMenu;
 import platinpython.railgun_transport.util.registries.BlockEntityRegistry;
@@ -52,22 +55,27 @@ public class CapsuleBlockEntity extends BlockEntity implements MenuProvider, Nam
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.put("Items", itemHandler.serializeNBT(registries));
+        tag.put("inventory", this.itemHandler.serializeNBT(registries));
         this.lockKey.addToTag(tag);
         if (this.name != null) {
-            tag.putString("custom_name", Component.Serializer.toJson(this.name, registries));
+            ComponentSerialization.CODEC.encodeStart(registries.createSerializationContext(NbtOps.INSTANCE), this.name)
+                .resultOrPartial(RailgunTransport.LOGGER::error)
+                .ifPresent(component -> tag.put("name", component));
         }
     }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        if (tag.contains("Items", Tag.TAG_COMPOUND)) {
-            itemHandler.deserializeNBT(registries, tag.getCompound("Items"));
+        if (tag.contains("inventory", Tag.TAG_COMPOUND)) {
+            this.itemHandler.deserializeNBT(registries, tag.getCompound("inventory"));
         }
         this.lockKey = LockCode.fromTag(tag);
-        if (tag.contains("custom_name", Tag.TAG_STRING)) {
-            this.name = parseCustomNameSafe(tag.getString("custom_name"), registries);
+        if (tag.contains("name")) {
+            this.name = ComponentSerialization.CODEC
+                .parse(registries.createSerializationContext(NbtOps.INSTANCE), tag.get("name"))
+                .resultOrPartial(RailgunTransport.LOGGER::error)
+                .orElse(null);
         }
     }
 
@@ -109,9 +117,9 @@ public class CapsuleBlockEntity extends BlockEntity implements MenuProvider, Nam
     @Override
     public void removeComponentsFromTag(CompoundTag tag) {
         super.removeComponentsFromTag(tag);
-        tag.remove("custom_name");
-        tag.remove("Lock");
-        tag.remove("Inventory");
+        tag.remove("inventory");
+        tag.remove(LockCode.TAG_LOCK);
+        tag.remove("name");
     }
 
     private ItemStackHandler createHandler() {

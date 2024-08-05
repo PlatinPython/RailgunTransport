@@ -6,7 +6,6 @@ import dev.lukebemish.codecextras.Asymmetry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -81,21 +80,18 @@ public class TargetSavedData extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.put(
-            "Positions",
-            CODEC.encodeStart(NbtOps.INSTANCE, Asymmetry.ofEncoding(this))
-                .resultOrPartial(RailgunTransport.LOGGER::error)
-                .orElse(EndTag.INSTANCE)
-        );
+        CODEC.encodeStart(NbtOps.INSTANCE, Asymmetry.ofEncoding(this))
+            .resultOrPartial(RailgunTransport.LOGGER::error)
+            .ifPresent(targets -> tag.put("targets", targets));
         return tag;
     }
 
     public static TargetSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
         TargetSavedData targetSavedData = new TargetSavedData();
-        if (!tag.contains("Positions")) {
+        if (!tag.contains("targets")) {
             return targetSavedData;
         }
-        CODEC.parse(NbtOps.INSTANCE, tag.get("Positions"))
+        CODEC.parse(NbtOps.INSTANCE, tag.get("targets"))
             .flatMap(Asymmetry::decoding)
             .resultOrPartial(RailgunTransport.LOGGER::error)
             .ifPresent(consumer -> consumer.accept(targetSavedData));

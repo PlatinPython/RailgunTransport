@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.EndTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -45,10 +44,12 @@ public class TerminalBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.put("Inventory", this.itemHandler.serializeNBT(registries));
+        tag.put("inventory", this.itemHandler.serializeNBT(registries));
         switch (this.getBlockState().getValue(TerminalBlock.MULTIBLOCK_TYPE)) {
-            case RAILGUN -> this.railgunData.ifPresent(data -> tag.put("RailgunData", data.saveToTag()));
-            case TARGET -> this.targetData.ifPresent(data -> tag.put("TargetData", data.saveToTag()));
+            case RAILGUN ->
+                this.railgunData.flatMap(RailgunData::saveToTag).ifPresent(data -> tag.put("railgun_data", data));
+            case TARGET ->
+                this.targetData.flatMap(TargetData::saveToTag).ifPresent(data -> tag.put("target_data", data));
             case NONE -> {}
         }
     }
@@ -56,23 +57,27 @@ public class TerminalBlockEntity extends BlockEntity {
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        if (tag.contains("Inventory")) {
-            this.itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
+        if (tag.contains("inventory")) {
+            this.itemHandler.deserializeNBT(registries, tag.getCompound("inventory"));
         }
         switch (this.getBlockState().getValue(TerminalBlock.MULTIBLOCK_TYPE)) {
             case RAILGUN -> {
-                if (tag.contains("RailgunData")) {
-                    this.railgunData.ifPresentOrElse(
-                        data -> data.load(Objects.requireNonNullElse(tag.get("RailgunData"), EndTag.INSTANCE)),
-                        () -> this.railgunData = Optional.of(new RailgunData(this))
-                    );
+                if (tag.contains("railgun_data")) {
+                    this.railgunData
+                        .ifPresentOrElse(
+                            data -> data.load(
+                                Objects
+                                    .requireNonNull(tag.get("railgun_data"), "null after CompoundTag#contains check.")
+                            ), () -> this.railgunData = Optional.of(new RailgunData(this))
+                        );
                 }
             }
             case TARGET -> {
-                if (tag.contains("TargetData")) {
+                if (tag.contains("target_data")) {
                     this.targetData.ifPresentOrElse(
-                        data -> data.load(Objects.requireNonNullElse(tag.get("TargetData"), EndTag.INSTANCE)),
-                        () -> this.targetData = Optional.of(new TargetData(this))
+                        data -> data.load(
+                            Objects.requireNonNull(tag.get("target_data"), "null after CompoundTag#contains check.")
+                        ), () -> this.targetData = Optional.of(new TargetData(this))
                     );
                 }
             }
@@ -83,20 +88,8 @@ public class TerminalBlockEntity extends BlockEntity {
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return switch (this.getBlockState().getValue(TerminalBlock.MULTIBLOCK_TYPE)) {
-            case RAILGUN -> {
-                if (this.railgunData.isPresent()) {
-                    yield this.railgunData.get().getUpdateTag();
-                } else {
-                    yield new CompoundTag();
-                }
-            }
-            case TARGET -> {
-                if (this.targetData.isPresent()) {
-                    yield this.targetData.get().getUpdateTag();
-                } else {
-                    yield new CompoundTag();
-                }
-            }
+            case RAILGUN -> this.railgunData.map(RailgunData::getUpdateTag).orElse(new CompoundTag());
+            case TARGET -> this.targetData.map(TargetData::getUpdateTag).orElse(new CompoundTag());
             case NONE -> new CompoundTag();
         };
     }
